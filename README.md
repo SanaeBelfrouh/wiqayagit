@@ -56,7 +56,7 @@ into a **250 m fire-susceptibility map** of the Bouhachem, Derdara and Jbel Soug
 | Dataset | Product and provider | Dates | Processing level | Licence | Used in |
 |---|---|---|---|---|---|
 | Active fires | **NASA FIRMS**: MODIS Collection 6.1 active fires (1 km) and VIIRS S-NPP 375 m Collection 2 active fires | 2005-05-09 → 2026-06-05 (1,176 detections within 5 km of the forest) | Level-2 active-fire points (archive and NRT), clipped to the AOI | NASA open data, no restriction | Main notebook, platform |
-| Terrain | 30 m global digital elevation model, downloaded and reprojected by the team | static | Reprojected to EPSG:26191, clipped to the forest + 1 km; slope and aspect derived | Open access | Main notebook, platform |
+| Terrain | **FABDEM V1-2** (University of Bristol): Copernicus GLO-30 DEM with forests and buildings removed, 1 arc-second (≈30 m) | V1-2, January 2023 (Copernicus DEM 2021_1) | Bare-earth DEM, reprojected to EPSG:26191, clipped to the forest + 1 km; slope and aspect derived | CC BY-NC-SA 4.0 | Main notebook, platform |
 | Population | **WorldPop** `mar_ppp_2017`, unconstrained, 3 arc-seconds | 2017 | Clipped to the forest + 10 km, reprojected to 100 m (sum resampling, totals within 0.1 %) | CC BY 4.0 | Main notebook, platform |
 | Forest boundaries | 6-part forest polygon, prepared by the team | 2026 | Vector, EPSG:26191 | Shared with this repository | Main notebook, platform |
 | Weather | **Open-Meteo** Historical Weather API (ERA5 / ERA5-Land reanalysis) and Forecast API: hourly 2 m temperature, 2 m relative humidity, 10 m wind | 2017-06-01 → 2025-09-30, plus today's forecast | Hourly → daily max / min, VPD computed | CC BY 4.0 | Main notebook (step 7), platform |
@@ -252,6 +252,7 @@ In short, this PoC is a **working, reproducible pipeline**, not yet a reliable p
 
 **Attribution:**
 - **NASA FIRMS** (MODIS C6.1 and VIIRS S-NPP 375 m active fires), https://earthdata.nasa.gov/firms.
+- **FABDEM V1-2:** Hawker, L., Uhe, P., Paulo, L., Sosa, J., Savage, J., Sampson, C. and Neal, J. (2022), *A 30 m global map of elevation with forests and buildings removed*, Environ. Res. Lett. 17, 024016. Data: University of Bristol, https://doi.org/10.5523/bris.s5hqmjcdj8yo2ibzi9b4ew3sn, CC BY-NC-SA 4.0 (based on the Copernicus GLO-30 DEM).
 - **WorldPop**, www.worldpop.org, University of Southampton, Morocco 2017 population counts, CC BY 4.0.
 - **Open-Meteo** (Zippenfeld, P., *Open-Meteo.com Weather API*), CC BY 4.0. Its archive is based on ERA5:
   Hersbach, H. et al. (2020), *The ERA5 global reanalysis*, Q. J. R. Meteorol. Soc. 146, 1999–2049.

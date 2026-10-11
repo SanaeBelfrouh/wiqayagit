@@ -6,7 +6,7 @@ about 25,900 ha. Everything is in Merchich / Nord Maroc (EPSG:26191). Total size
 | File | Content | Source and processing |
 |---|---|---|
 | `forest_boundaries.gpkg` | Forest boundaries, 6 parts (`part` = a to f) | GIS layer prepared by the team |
-| `dem_30m.tif` | Digital elevation model, ~25 × 31 m pixels, float32 (m) | DEM prepared by the team, clipped to the forest plus 1 km |
+| `dem_30m.tif` | Digital elevation model, ~25 × 31 m pixels, float32 (m) | FABDEM V1-2 (University of Bristol, Copernicus GLO-30 with forests and buildings removed, https://doi.org/10.5523/bris.s5hqmjcdj8yo2ibzi9b4ew3sn), reprojected to EPSG:26191 and clipped to the forest plus 1 km. Licence CC BY-NC-SA 4.0: this clipped file is shared under the same licence |
 | `population_2017_100m.tif` | Population count per 100 m pixel | WorldPop 2017 `mar_ppp_2017` (unconstrained, 3 arc-seconds), clipped to the forest plus 10 km and reprojected to 100 m with sum resampling (totals kept within 0.1 %) |
 | `firms_fire_detections.gpkg` | 1,176 active-fire detections within 5 km of the forest, 2005-05-09 to 2026-06-05 | NASA FIRMS archive download for the AOI: MODIS Collection 6.1 (2005–2017) and VIIRS S-NPP 375 m Collection 2 (2017–2026). Fields: `ACQ_DATE`, `ACQ_TIME`, `SATELLITE`, `INSTRUMENT`, `CONFIDENCE`, `FRP` |
 
