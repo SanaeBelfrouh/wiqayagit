@@ -238,8 +238,11 @@ In short, this PoC is a **working, reproducible pipeline**, not yet a reliable p
 ## 9. Team, licence and attribution
 
 **Team Wiqaya, Morocco:**
-- **Sanae Belfrouh**
-- **Wiame Kane**
+- **Sanae BELFROUH**
+- **Wiame KANE**
+- **Yassine AZMOU**
+- **Mohammed Yassine SOF**
+- **Hajar ELOUATIQ**
 
 **Licence.** Code under the [MIT licence](LICENSE). Data keep their own licences (see [section 3](#3-data-used)).
 
