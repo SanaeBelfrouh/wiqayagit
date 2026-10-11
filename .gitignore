@@ -1,0 +1,14 @@
+# Fichiers parasites macOS
+.DS_Store
+__MACOSX/
+
+# Résultats générés par le notebook (recalculables)
+resultats/
+
+# Python / Jupyter
+__pycache__/
+.ipynb_checkpoints/
+
+# Raster WorldPop complet (268 Mo, > 100 Mo : refusé par GitHub). Le dépôt contient la version découpée
+# sur la zone d'étude : data/data/population_2017_26191_100m.tif
+mar_ppp_*.tif
