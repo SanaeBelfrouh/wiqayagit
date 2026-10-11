@@ -1,0 +1,28 @@
+/* Carte du risque (modèle code208) : Leaflet dans .map-surface (index2.html) ou en plein écran (carte.html) */
+.carte-risque { position:absolute; inset:0; z-index:1; background:#dfe7e3; }
+.carte-risque.plein-ecran { position:fixed; }
+.carte-legende,.carte-danger { padding:8px 10px; display:grid; gap:4px; color:#0b3446; background:rgba(255,255,255,.93); border-radius:4px; box-shadow:0 4px 14px rgba(2,20,39,.18); font:600 10px/1.35 Inter, system-ui, sans-serif; }
+.carte-legende strong { font-size:10px; margin-bottom:2px; }
+.carte-legende span { display:flex; align-items:center; gap:6px; font-weight:500; }
+.carte-legende i { width:12px; height:10px; display:inline-block; border-radius:2px; }
+.carte-legende i.alerte { background:transparent; border:1.5px solid #7a0000; }
+.carte-legende i.firms { width:9px; height:9px; border-radius:50%; background:#ff3131; border:1.5px solid #fff; box-shadow:0 0 0 1px #ff3131; }
+.carte-danger { max-width:230px; }
+.carte-danger small { color:#73818a; font-size:8px; letter-spacing:.09em; }
+.carte-danger strong { font:700 16px 'Space Grotesk', Inter, sans-serif; }
+.carte-danger strong em { margin-left:4px; color:#73818a; font:500 11px Inter, sans-serif; }
+.carte-danger span { color:#4d5d66; font-weight:500; }
+.map-surface::before { z-index:0; pointer-events:none; }
+@media (max-width: 640px) {
+  .carte-legende { font-size:8px; padding:5px 7px; gap:2px; }
+  .carte-legende i { width:9px; height:8px; }
+  .carte-danger { max-width:150px; padding:6px 8px; font-size:8px; gap:2px; }
+  .carte-danger strong { font-size:13px; }
+  .carte-danger span:last-child { display:none; }
+  .leaflet-control-attribution { font-size:7px; }
+}
+/* La carte reste orientée de gauche à droite en arabe ; seuls les textes des encarts passent en RTL (dir="auto") */
+.carte-risque { direction:ltr; }
+[dir="rtl"] .carte-danger,[dir="rtl"] .carte-legende { text-align:right; }
+/* La carte Leaflet (en position absolue) n'a pas de largeur propre : sur mobile, la colonne doit prendre toute la largeur */
+.live-grid > .map-card { width:100%; min-width:0; }

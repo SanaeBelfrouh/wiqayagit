@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wiqaya — Carte des incendies</title>
+    <title>Wiqaya — Carte du risque d'incendie</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="carte-risque.css" />
     <style>
         html,
         body {
@@ -14,19 +16,13 @@
             height: 100%;
             overflow: hidden;
         }
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            display: block;
-        }
     </style>
 </head>
 <body>
-    <iframe
-        src="https://umap.openstreetmap.de/en/map/untitled-map_160467#12/35.156407/-5.329399"
-        allowfullscreen>
-    </iframe>
+    <div id="carteRisque" class="carte-risque plein-ecran" role="region" aria-label="Carte du risque d'incendie"></div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="i18n.js"></script>
+    <script src="carte-risque.js"></script>
 </body>
 
 </html>

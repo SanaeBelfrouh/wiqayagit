@@ -8,11 +8,11 @@
     <meta name="theme-color" content="#021427" />
     <meta name="description" content="Wiqaya surveille les incendies dans trois forêts marocaines et informe les citoyens." />
 
-```
 <title>Wiqaya — Surveillance des incendies au Maroc</title>
 
 <link rel="stylesheet" href="wiqaya.css" />
-```
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<link rel="stylesheet" href="carte-risque.css" />
 
 </head>
 
@@ -167,19 +167,7 @@
 
 
                         <div class="map-surface">
-                            <iframe
-
-                                    src="https://umap.openstreetmap.de/en/map/untitled-map_160467#12/35.156407/-5.329399"
-
-                                    width="100%"
-
-                                    height="100%"
-
-                                    frameborder="0"
-
-                                    allowfullscreen>
-
-                            </iframe>
+                            <div id="carteRisque" class="carte-risque" role="region" aria-label="Carte du risque d'incendie"></div>
 
                             <!-- <div class="map-grid"></div> -->
 
@@ -246,24 +234,7 @@
                             </div> -->
 
 
-                            <div class="map-legend">
-
-                                <span>
-                                    <i class="legend-red"></i>
-                                    Très élevé
-                                </span>
-
-                                <span>
-                                    <i class="legend-orange"></i>
-                                    Élevé
-                                </span>
-
-                                <span>
-                                    <i class="legend-yellow"></i>
-                                    Maîtrisé
-                                </span>
-
-                            </div>
+                            <!-- Légende : dessinée par carte-risque.js (classes du modèle code208) -->
 
 
                             <!-- <div class="map-heading">
@@ -289,11 +260,11 @@
                         <div class="map-footer">
 
                             <span>
-                                ⌁ &nbsp;Carte des incendies
+                                ⌁ &nbsp;Carte du risque d’incendie
                             </span>
 
                             <span>
-                                Source : flux exemple Wiqaya · mise à jour
+                                Source : modèle code208 · NASA FIRMS · Open-Meteo · mise à jour
                                 <b id="updatedAt">
                                     à l’instant
                                 </b>
@@ -841,7 +812,7 @@
                         <label>
                             <input
                                 type="checkbox"
-                                name="email"
+                                name="emailChannel"
                                 checked
                             />
                             Email
@@ -1036,6 +1007,9 @@
 </div>
 
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="i18n.js"></script>
+<script src="carte-risque.js"></script>
 <script src="wiqaya.js"></script>
 <script>
     // ===== Calendrier historique =====
@@ -1050,6 +1024,8 @@
   const historyStatus = document.querySelector("#historyStatus");
   const historyResults = document.querySelector("#historyResults");
 
+  const t = (texte, valeurs) => (window.wiqayaI18n ? window.wiqayaI18n.t(texte, valeurs) : texte);
+  const locale = () => (window.wiqayaI18n ? window.wiqayaI18n.locale() : "fr-MA");
   const today = new Date();
   today.setHours(12, 0, 0, 0);
   let selectedDate = new Date(today);
@@ -1057,13 +1033,13 @@
 
   const pad = (n) => String(n).padStart(2, "0");
   const toISODate = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
-  const formatLongDate = (d) => new Intl.DateTimeFormat("fr-MA", {
+  const formatLongDate = (d) => new Intl.DateTimeFormat(locale(), {
     weekday: "long", day: "numeric", month: "long", year: "numeric",
   }).format(d);
   const daysInMonth = (y, m) => new Date(y, m + 1, 0).getDate();
 
   function renderCalendar() {
-    if (monthLabel) monthLabel.textContent = new Intl.DateTimeFormat("fr-MA", { month: "long" }).format(displayedMonth);
+    if (monthLabel) monthLabel.textContent = new Intl.DateTimeFormat(locale(), { month: "long" }).format(displayedMonth);
     if (yearLabel) yearLabel.textContent = String(displayedMonth.getFullYear());
 
     const firstDay = new Date(displayedMonth.getFullYear(), displayedMonth.getMonth(), 1, 12);
@@ -1093,9 +1069,19 @@
     selectedDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12);
     if (moveCalendar) displayedMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1, 12);
     if (historyDate) historyDate.value = toISODate(selectedDate);
-    if (selectedLabel) selectedLabel.textContent = new Intl.DateTimeFormat("fr-MA", { day: "numeric", month: "short" }).format(selectedDate);
-    if (historyStatus) historyStatus.textContent = `Date sélectionnée : ${formatLongDate(selectedDate)}.`;
-    if (historyResults) historyResults.textContent = "Les archives d’incendies ne sont pas encore reliées à cette maquette.";
+    if (selectedLabel) selectedLabel.textContent = new Intl.DateTimeFormat(locale(), { day: "numeric", month: "short" }).format(selectedDate);
+    if (historyStatus) historyStatus.textContent = t("Date sélectionnée : {date}.", { date: formatLongDate(selectedDate) });
+    if (historyResults) {
+      historyResults.textContent = t("Recherche des détections FIRMS…");
+      const iso = toISODate(selectedDate);
+      (window.wiqayaFeux ? window.wiqayaFeux(iso) : Promise.reject(new Error("carte indisponible")))
+        .then((r) => {
+          historyResults.textContent = r.detections
+            ? t("{n} détection(s) satellite FIRMS, dont {f} dans la forêt : points affichés sur la carte.", { n: r.detections, f: r.dans_foret })
+            : t("Aucune détection FIRMS ce jour-là (données disponibles jusqu’au {date}).", { date: new Date(r.firms_jusqu_au).toLocaleDateString(locale()) });
+        })
+        .catch(() => { historyResults.textContent = t("Archives indisponibles : lancez le serveur Wiqaya (python serveur/app.py)."); });
+    }
     renderCalendar();
   }
 
@@ -1141,8 +1127,16 @@
   });
 
   if (historyDate) historyDate.value = toISODate(today);
-  if (selectedLabel) selectedLabel.textContent = "Aujourd’hui";
+  if (selectedLabel) selectedLabel.textContent = t("Aujourd’hui");
   renderCalendar();
+  // Changement de langue : noms des mois et jours du calendrier dans la nouvelle langue
+  let dateChoisie = false;
+  calendarGrid.addEventListener("click", () => { dateChoisie = true; });
+  window.addEventListener("wiqaya:langue", () => {
+    renderCalendar();
+    if (dateChoisie && selectedLabel) selectedLabel.textContent = new Intl.DateTimeFormat(locale(), { day: "numeric", month: "short" }).format(selectedDate);
+    if (dateChoisie && historyStatus) historyStatus.textContent = t("Date sélectionnée : {date}.", { date: formatLongDate(selectedDate) });
+  });
 })();
 </script>
 
