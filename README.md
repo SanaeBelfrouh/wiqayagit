@@ -217,8 +217,9 @@ machine. The desktop screenshots show the computed danger.*
 - **Good on the big fire years.** The model ranks well the years with large fires (2018–2021).
 - **Fails on recent fires.** It fails on 2023, 2024 and the 2025 blind test. The 2025 fires broke out in cells it rates as
   low risk (blue points in the headline figure).
-- **Why.** The most important features are elevation, recent burns and aspect. They describe terrain and fire history,
-  not **vegetation dryness or human access**, which drive where new fires start.
+- **Why.** The most important features are population, elevation and aspect, then fire history
+  (`results/feature_importance.png`). They describe exposure, terrain and fire history, not **vegetation dryness or
+  human access**, which drive where new fires start.
 - **Small sample.** Only 345 positive cell-years exist: scores per year are unstable when a year has few fires.
 - **Fuel rule effect.** The rule correctly removes recently burned cells, which pushes the risk towards long-unburned
   high ground.
