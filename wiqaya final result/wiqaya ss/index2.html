@@ -1,0 +1,1151 @@
+<!doctype html>
+
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#021427" />
+    <meta name="description" content="Wiqaya surveille les incendies dans trois forêts marocaines et informe les citoyens." />
+
+```
+<title>Wiqaya — Surveillance des incendies au Maroc</title>
+
+<link rel="stylesheet" href="wiqaya.css" />
+```
+
+</head>
+
+<body>
+
+
+<div class="site-shell">
+
+    <header class="site-header">
+
+        <div class="header-inner">
+            <img src="wiqaya_logo__1_-removebg-preview.png"  class="navbar-logo">
+            <!-- <button class="menu-button" id="menuButton" aria-label="Ouvrir le menu"> -->
+                <span></span>
+                <span></span>
+                <span></span>
+            <!-- </button> -->
+
+            <!-- <a href="#top" class="wordmark">WIQAYA</a> -->
+
+            <nav class="main-nav" id="mainNav">
+
+                <a class="active" href="#carte">
+                    Incendies en cours
+                </a>
+
+                <a href="carte.html">
+                    Vigilance journalière
+                </a>
+
+                <!-- <a href="#historique">
+                    Historique
+                </a> -->
+
+                <a href="#vigilance">
+                    Prévention
+                </a>
+
+            </nav>
+
+            <div class="header-actions">
+
+                <!-- <button class="language-button">
+                    ◎ FR
+                    <span>⌄</span>
+                </button> -->
+                <div class="language-selector">
+                        <button id="languageBtn" class="language-btn" type="button">
+                            🌐 FR
+                           
+                        </button>
+
+                    <div id="languageMenu" class="language-menu">
+                            <button type="button" data-lang="fr">🇫🇷 Français</button>
+                            <button type="button" data-lang="en">🇬🇧 English</button>
+                            <button type="button" data-lang="ar">🇲🇦 العربية</button>
+                            </div>
+                    </div>
+
+               
+                <a class="alert-button" href="#inscription">
+                    ♧
+                    <span>Recevoir les alertes</span>
+                </a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <main id="top">
+
+        <div class="container">
+
+            <section class="info-banner dark-banner">
+
+                <div class="banner-number">
+                    03
+                    <small>FORÊTS</small>
+                </div>
+
+                <div class="banner-copy">
+
+                    <strong>
+                        Wiqaya informe sur les incendies au Maroc
+                    </strong>
+
+                    <p>
+                        Une plateforme de surveillance et d’alerte pour Bouhachem, Derdara et Tazekka.
+                    </p>
+
+                </div>
+
+                <a class="white-button" href="#inscription">
+                    Activer mes alertes
+                    <span>→</span>
+                </a>
+
+                <!-- <button class="banner-close" aria-label="Fermer">
+                    ×
+                </button> -->
+
+            </section>
+
+
+            <section class="info-banner support-banner">
+
+                <div class="support-heart">
+                    ♡
+                </div>
+
+                <div class="banner-copy">
+
+                    <strong>
+                        Recevez les alertes incendie de votre zone
+                    </strong>
+
+                    <p>
+                        Inscription gratuite par SMS et e-mail, sans publicité ni engagement.
+                    </p>
+
+                </div>
+
+                <a class="red-button" href="#inscription">
+                    S’inscrire gratuitement
+                    <span>→</span>
+                </a>
+
+            </section>
+
+
+            <section class="live-section" id="carte">
+
+                <div class="live-grid">
+
+                    <div class="map-card">
+
+                        <div class="map-actions">
+
+                            <!-- <span class="live-pill">
+                                <i></i>
+                                EN DIRECT
+                            </span> -->
+
+                            <button class="map-location" id="mapLocation">
+                                ⌖ Ma position
+                            </button>
+
+                        </div>
+
+
+                        <div class="map-surface">
+                            <iframe
+
+                                    src="https://umap.openstreetmap.de/en/map/untitled-map_160467#12/35.156407/-5.329399"
+
+                                    width="100%"
+
+                                    height="100%"
+
+                                    frameborder="0"
+
+                                    allowfullscreen>
+
+                            </iframe>
+
+                            <!-- <div class="map-grid"></div> -->
+
+                            
+
+                            <!-- <div class="map-road road-one"></div>
+                            <div class="map-road road-two"></div>
+
+                            <span class="map-city city-Bouhachem">
+                                BOUHACHEM
+                            </span>
+
+                            <span class="map-city city-Derdara">
+                            DERDARA
+                            </span>
+
+                            <span class="map-city city-Tazekka">
+                                TAZEKKA
+                            </span> -->
+
+                            <!-- <span class="map-ocean">
+                                Océan Atlantique
+                            </span> -->
+
+
+                            <!-- <button class="fire-pin pin-one" data-fire="0" aria-label="Voir le feu de Bouhachem">
+                                <span class="pin-pulse"></span>
+                                <span class="pin-symbol">♨</span>
+                            </button>
+
+                            <button class="fire-pin pin-two" data-fire="1" aria-label="Voir le feu de Derdara">
+                                <span class="pin-pulse"></span>
+                                <span class="pin-symbol">♨</span>
+                            </button>
+
+                            <button class="fire-pin pin-three" data-fire="2" aria-label="Voir le feu de Tazekka">
+                                <span class="pin-pulse"></span>
+                                <span class="pin-symbol">♨</span>
+                            </button> -->
+
+
+                            <!-- <div class="map-popup" id="mapPopup" hidden>
+
+                                <button id="popupClose" aria-label="Fermer">
+                                    ×
+                                </button>
+
+                                <span class="risk-tag" id="popupRisk">
+                                    Risque élevé
+                                </span>
+
+                                <strong id="popupTitle">
+                                    Bouhachem
+                                </strong>
+
+                                <small id="popupLocation">
+                                    Forêt de Bouhachem · Tanger
+                                </small>
+
+                                <p id="popupDescription">
+                                    Point chaud détecté par satellite, intervention en cours.
+                                </p>
+
+                            </div> -->
+
+
+                            <div class="map-legend">
+
+                                <span>
+                                    <i class="legend-red"></i>
+                                    Très élevé
+                                </span>
+
+                                <span>
+                                    <i class="legend-orange"></i>
+                                    Élevé
+                                </span>
+
+                                <span>
+                                    <i class="legend-yellow"></i>
+                                    Maîtrisé
+                                </span>
+
+                            </div>
+
+
+                            <!-- <div class="map-heading">
+
+                                <small>
+                                    CARTE TEMPS RÉEL
+                                </small>
+
+                                <strong>
+                                    <span id="activeCount">2</span>
+                                    feux en cours
+                                </strong>
+
+                                <span>
+                                    9 feux suivis sur les 30 derniers jours
+                                </span>
+
+                            </div> -->
+
+                        </div>
+
+
+                        <div class="map-footer">
+
+                            <span>
+                                ⌁ &nbsp;Carte des incendies
+                            </span>
+
+                            <span>
+                                Source : flux exemple Wiqaya · mise à jour
+                                <b id="updatedAt">
+                                    à l’instant
+                                </b>
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <aside class="feed-card">
+
+                        <aside class="history-panel">
+    <h3>Historique des incendies</h3>
+    <p>Choisissez une date pour consulter les incendies sur la carte.</p>
+
+    <div class="calendar-widget" id="historyCalendar">
+        <div class="calendar-toolbar">
+            <button class="cal__nav" type="button" data-calendar-nav="-1" aria-label="Mois précédent">‹</button>
+            <div class="cal__heading" aria-live="polite">
+                <strong id="calendarMonth"></strong>
+                <span id="calendarYear"></span>
+            </div>
+            <button class="cal__nav" type="button" data-calendar-nav="1" aria-label="Mois suivant">›</button>
+        </div>
+
+        <div class="cal__weekdays" aria-hidden="true">
+            <span>Lun</span><span>Mar</span><span>Mer</span><span>Jeu</span><span>Ven</span><span>Sam</span><span>Dim</span>
+        </div>
+
+        <div class="cal__grid" id="calendarGrid" role="group" aria-label="Choisir une date"></div>
+
+        <div class="cal__footer">
+            <button type="button" id="calendarToday">Aujourd’hui</button>
+            <span id="calendarSelection">Aucune date sélectionnée</span>
+        </div>
+    </div>
+
+    <input class="visually-hidden" type="date" id="historyDate" tabindex="-1" aria-hidden="true">
+    <p id="historyStatus" role="status" aria-live="polite">Sélectionnez une date pour consulter l’historique.</p>
+    <div id="historyResults" aria-live="polite"></div>
+</aside>
+
+                        <div class="feed-list" id="feedList"></div>
+
+                        <a class="feed-alert-link" href="#inscription">
+                            ♧ &nbsp;
+                            Être alerté par SMS
+                            <span>→</span>
+                        </a>
+
+                    </aside>
+
+                </div>
+
+
+                <div class="quick-links">
+
+                    <a href="carte.html">
+
+                        <span class="quick-icon red">
+                            ◉
+                        </span>
+
+                        <span>
+                            <strong>
+                                Vigilance journalière
+                            </strong>
+
+                            <small>
+                                Le risque, forêt par forêt
+                            </small>
+                        </span>
+
+                        <span class="quick-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+
+                    <a href="#historique">
+
+                        <span class="quick-icon blue">
+                            ▣
+                        </span>
+
+                        <span>
+                            <strong>
+                                Historique
+                            </strong>
+
+                            <small>
+                                Cartes et statistiques
+                            </small>
+                        </span>
+
+                        <span class="quick-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+
+                    <a href="#prevention">
+
+                        <span class="quick-icon green">
+                            ♧
+                        </span>
+
+                        <span>
+                            <strong>
+                                Prévention
+                            </strong>
+
+                            <small>
+                                Les bons gestes
+                            </small>
+                        </span>
+
+                        <span class="quick-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+
+                    <a class="emergency-link" href="#inscription">
+
+                        <span>
+                            Témoin d’un feu ?
+                            <strong>
+                                Recevez l’alerte
+                            </strong>
+                        </span>
+
+                        <span class="emergency-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </section>
+
+
+            <section class="content-section" id="vigilance">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="kicker">
+                            VIGILANCE PAR ZONE
+                        </span>
+
+                        <h2>
+                            Le risque, forêt par forêt
+                        </h2>
+
+                    </div>
+
+                    <p>
+                        Les indicateurs utilisent une source de démonstration. Votre flux officiel pourra être branché ensuite.
+                    </p>
+
+                </div>
+
+
+                <div class="zone-grid">
+
+                    <article class="zone-card">
+
+                        <div class="zone-top">
+
+                            <span class="risk-badge red">
+                                Très élevé
+                            </span>
+
+                            <span>
+                                87/100
+                            </span>
+
+                        </div>
+
+                        <h3>
+                           Jbel Sougna
+                        </h3>
+
+                        <p>
+                            Forêt de Jbel Sougna · Chefchaouen
+                        </p>
+
+                        <div class="zone-bar">
+                            <i class="red" style="width:87%"></i>
+                        </div>
+
+                        <div class="zone-bottom">
+
+                            <span>
+                                Indice de vigilance
+                            </span>
+
+                            <strong>
+                                87
+                                <small>
+                                    / 100
+                                </small>
+                            </strong>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="zone-card">
+
+                        <div class="zone-top">
+
+                            <span class="risk-badge orange">
+                                Élevé
+                            </span>
+
+                            <span>
+                                72/100
+                            </span>
+
+                        </div>
+
+                        <h3>
+                            Bouhachem
+                        </h3>
+
+                        <p>
+                            Forêt de Bouhachem · Chefchaouen
+                        </p>
+
+                        <div class="zone-bar">
+                            <i class="orange" style="width:72%"></i>
+                        </div>
+
+                        <div class="zone-bottom">
+
+                            <span>
+                                Indice de vigilance
+                            </span>
+
+                            <strong>
+                                72
+                                <small>
+                                    / 100
+                                </small>
+                            </strong>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="zone-card">
+
+                        <div class="zone-top">
+
+                            <span class="risk-badge yellow">
+                                Modéré
+                            </span>
+
+                            <span>
+                                48/100
+                            </span>
+
+                        </div>
+
+                        <h3>
+                            Derdara
+                        </h3>
+
+                        <p>
+                            Forêt de Derdara · Chefchaoune
+                        </p>
+
+                        <div class="zone-bar">
+                            <i class="yellow" style="width:48%"></i>
+                        </div>
+
+                        <div class="zone-bottom">
+
+                            <span>
+                                Indice de vigilance
+                            </span>
+
+                            <strong>
+                                48
+                                <small>
+                                    / 100
+                                </small>
+                            </strong>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </section>
+
+
+            <section class="content-section" id="historique">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="kicker">
+                            ACTUALITÉS &amp; PRÉVENTION
+                        </span>
+
+                        <h2>
+                            Comprendre pour mieux protéger
+                        </h2>
+
+                    </div>
+
+                    <a href="#prevention" class="section-link">
+                        Voir tout →
+                    </a>
+
+                </div>
+
+
+                <div class="article-grid">
+
+                    <article class="article-card">
+
+                        <div class="article-visual forest-visual">
+
+                            <span class="visual-symbol">
+                                ♧
+                            </span>
+
+                            <small>
+                                PRÉVENTION
+                            </small>
+
+                        </div>
+
+                        <div class="article-body">
+
+                            <span class="article-kicker">
+                                GUIDE WIQAYA
+                            </span>
+
+                            <h3>
+                                Les bons gestes avant, pendant et après un incendie
+                            </h3>
+
+                            <p>
+                                Adoptez les réflexes essentiels pour protéger votre famille et limiter les risques.
+                            </p>
+
+                            <a href="Les bons gestes avant, pendant et après un incendie de forêt.pdf" target="_blank">
+                                Lire l’article →
+                            </a>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="article-card">
+
+                        <div class="article-visual satellite-visual">
+
+                            <span class="visual-symbol">
+                                ♨
+                            </span>
+
+                            <small>
+                                SURVEILLANCE
+                            </small>
+
+                        </div>
+
+                        <div class="article-body">
+
+                            <span class="article-kicker">
+                                SOURCE DE DONNÉES
+                            </span>
+
+                            <h3>
+                                Comment Wiqaya détecte les points chauds par satellite
+                            </h3>
+
+                            <p>
+                                Une vue pédagogique sur les données qui alimentent cette  version.
+                            </p>
+
+                            <a href="Comment Wiqaya détecte les points chauds par satellite.pdf" target="_blank">
+                                Découvrir →
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </section>
+
+
+            <section class="prevention-section" id="prevention">
+
+                <div>
+
+                    <span class="kicker light">
+                        TÉMOIN D’UN FEU ?
+                    </span>
+
+                    <h2>
+                        Un signal rapide peut
+                        <br />
+                        <span>
+                            faire toute la différence.
+                        </span>
+                    </h2>
+
+                    <p>
+                        En cas de fumée ou de feu, éloignez-vous et contactez les secours. Wiqaya vous aide à rester informé.
+                    </p>
+
+                </div>
+
+                <a class="emergency-button" href="tel:150">
+                    Urgence
+                    <strong>
+                        150
+                    </strong>
+                    →
+                </a>
+
+            </section>
+
+
+            <section class="signup-section" id="inscription">
+
+                <div class="signup-heading">
+
+                    <span class="kicker">
+                        ALERTES WIQAYA
+                    </span>
+
+                    <h2>
+                        Activez vos alertes
+                    </h2>
+
+                    <p>
+                        Recevez un SMS et un e-mail dès qu’un risque est confirmé dans votre zone.
+                    </p>
+
+                </div>
+
+
+                <form id="alertForm" class="alert-form">
+
+                    <label>
+                        Prénom *
+                        <input
+                            name="firstName"
+                            required
+                            placeholder="Ex. Yassine"
+                        />
+                    </label>
+
+                    <label>
+                        Nom *
+                        <input
+                            name="lastName"
+                            required
+                            placeholder="Ex. Amrani"
+                        />
+                    </label>
+
+
+                    <label class="wide">
+                        Numéro de téléphone *
+                        <input
+                            name="phone"
+                            required
+                            type="tel"
+                            placeholder="+212 6 12 34 56 78"
+                        />
+                    </label>
+
+                    <label class="wide">
+                        Adresse e-mail *
+                        <input
+                            name="email"
+                            required
+                            type="email"
+                            placeholder="vous@exemple.ma"
+                        />
+                    </label>
+
+
+                    <label class="wide">
+                        Forêt à surveiller
+
+                        <select name="forest">
+                            <option>
+                                Toutes les zones
+                            </option>
+
+                            <option>
+                                Forêt de Derdara
+                            </option>
+
+                            <option>
+                                Forêt de Bouhachem
+                            </option>
+
+                            <option>
+                                Forêt de Jbel Sougna
+                            </option>
+                        </select>
+
+                    </label>
+
+
+                    <div class="channel-options wide">
+
+                        <span>
+                            Canaux de notification
+                        </span>
+
+                        <label>
+                            <input
+                                type="checkbox"
+                                name="sms"
+                                checked
+                            />
+                            SMS
+                        </label>
+
+                        <label>
+                            <input
+                                type="checkbox"
+                                name="email"
+                                checked
+                            />
+                            Email
+                        </label>
+
+                    </div>
+
+
+                    <label class="location-check wide">
+
+                        <input
+                            type="checkbox"
+                            name="location"
+                        />
+
+                        Autoriser ma localisation pour prioriser les alertes proches de moi.
+
+                    </label>
+
+
+                    <button
+                        class="red-button submit-button"
+                        type="submit"
+                    >
+                        Activer mes alertes
+                        <span>
+                            →
+                        </span>
+                    </button>
+
+                    <p class="form-note wide">
+                        Vos informations sont utilisées uniquement pour vous prévenir des incendies.
+                    </p>
+
+                </form>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <footer class="site-footer">
+
+        <div class="container footer-content">
+
+            <div>
+
+                <div class="footer-wordmark">
+                    WIQAYA
+                </div>
+
+                <p>
+                    Surveiller les feux.
+                    <br />
+                    Protéger les forêts du Maroc.
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Surveillance
+                </strong>
+
+                <a href="#carte">
+                    Incendies en cours
+                </a>
+
+                <a href="#vigilance">
+                    Vigilance journalière
+                </a>
+
+                <a href="#historique">
+                    Historique
+                </a>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Wiqaya
+                </strong>
+
+                <a href="#prevention">
+                    Prévention
+                </a>
+
+                <a href="#inscription">
+                    Recevoir les alertes
+                </a>
+
+                <a href="#carte">
+                    À propos
+                </a>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Contact
+                </strong>
+
+                <a href="mailto:contact@wiqaya.ma">
+                    contact@wiqaya.ma
+                </a>
+
+                <a href="tel:+212500000000">
+                    +212 5 00 00 00 00
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="container footer-bottom">
+
+            <span>
+                © 2026 Wiqaya — Satellite Intelligence
+            </span>
+
+            <span>
+                Prototype · Données d’exemple
+            </span>
+
+            <span>
+                Confidentialité · Mentions légales
+            </span>
+
+        </div>
+
+    </footer>
+
+
+    <div class="location-toast" id="locationToast">
+
+        <div class="toast-icon">
+            ⌖
+        </div>
+
+        <div>
+
+            <strong>
+                Autoriser la localisation ?
+            </strong>
+
+            <p>
+                Pour afficher les alertes proches de vous.
+            </p>
+
+            <div>
+
+                <button id="allowLocation">
+                    Autoriser
+                </button>
+
+                <button id="dismissLocation">
+                    Plus tard
+                </button>
+
+            </div>
+
+        </div>
+
+        <button
+            class="toast-close"
+            id="closeLocation"
+            aria-label="Fermer"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <div
+        class="success-message"
+        id="successMessage"
+        role="status"
+    >
+        Votre inscription est enregistrée. Vous recevrez les prochaines alertes Wiqaya.
+    </div>
+
+</div>
+
+
+<script src="wiqaya.js"></script>
+<script>
+    // ===== Calendrier historique =====
+(function () {
+  const calendarGrid = document.querySelector("#calendarGrid");
+  if (!calendarGrid) return;
+
+  const monthLabel = document.querySelector("#calendarMonth");
+  const yearLabel = document.querySelector("#calendarYear");
+  const selectedLabel = document.querySelector("#calendarSelection");
+  const historyDate = document.querySelector("#historyDate");
+  const historyStatus = document.querySelector("#historyStatus");
+  const historyResults = document.querySelector("#historyResults");
+
+  const today = new Date();
+  today.setHours(12, 0, 0, 0);
+  let selectedDate = new Date(today);
+  let displayedMonth = new Date(today.getFullYear(), today.getMonth(), 1, 12);
+
+  const pad = (n) => String(n).padStart(2, "0");
+  const toISODate = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  const formatLongDate = (d) => new Intl.DateTimeFormat("fr-MA", {
+    weekday: "long", day: "numeric", month: "long", year: "numeric",
+  }).format(d);
+  const daysInMonth = (y, m) => new Date(y, m + 1, 0).getDate();
+
+  function renderCalendar() {
+    if (monthLabel) monthLabel.textContent = new Intl.DateTimeFormat("fr-MA", { month: "long" }).format(displayedMonth);
+    if (yearLabel) yearLabel.textContent = String(displayedMonth.getFullYear());
+
+    const firstDay = new Date(displayedMonth.getFullYear(), displayedMonth.getMonth(), 1, 12);
+    const mondayOffset = (firstDay.getDay() + 6) % 7;
+    const monthLength = daysInMonth(displayedMonth.getFullYear(), displayedMonth.getMonth());
+    const selectedISO = toISODate(selectedDate);
+    const todayISO = toISODate(today);
+    const cells = [];
+
+    for (let i = 0; i < 42; i++) {
+      const day = i - mondayOffset + 1;
+      if (day < 1 || day > monthLength) {
+        cells.push('<span class="cal__day is-outside" aria-hidden="true"></span>');
+        continue;
+      }
+      const date = new Date(displayedMonth.getFullYear(), displayedMonth.getMonth(), day, 12);
+      const iso = toISODate(date);
+      const classes = ["cal__day"];
+      if (iso === todayISO) classes.push("is-today");
+      if (iso === selectedISO) classes.push("is-selected");
+      cells.push(`<button class="${classes.join(" ")}" type="button" data-date="${iso}" aria-label="${formatLongDate(date)}" aria-pressed="${iso === selectedISO}" tabindex="${iso === selectedISO ? "0" : "-1"}">${day}</button>`);
+    }
+    calendarGrid.innerHTML = cells.join("");
+  }
+
+  function selectDate(date, moveCalendar = true) {
+    selectedDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12);
+    if (moveCalendar) displayedMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1, 12);
+    if (historyDate) historyDate.value = toISODate(selectedDate);
+    if (selectedLabel) selectedLabel.textContent = new Intl.DateTimeFormat("fr-MA", { day: "numeric", month: "short" }).format(selectedDate);
+    if (historyStatus) historyStatus.textContent = `Date sélectionnée : ${formatLongDate(selectedDate)}.`;
+    if (historyResults) historyResults.textContent = "Les archives d’incendies ne sont pas encore reliées à cette maquette.";
+    renderCalendar();
+  }
+
+  calendarGrid.addEventListener("click", (event) => {
+    const btn = event.target.closest("button[data-date]");
+    if (!btn) return;
+    const [y, m, d] = btn.dataset.date.split("-").map(Number);
+    selectDate(new Date(y, m - 1, d, 12));
+  });
+
+  document.querySelectorAll("[data-calendar-nav]").forEach((button) => {
+    button.addEventListener("click", () => {
+      displayedMonth = new Date(displayedMonth.getFullYear(), displayedMonth.getMonth() + Number(button.dataset.calendarNav), 1, 12);
+      renderCalendar();
+    });
+  });
+
+  document.querySelector("#calendarToday")?.addEventListener("click", () => selectDate(today));
+
+  calendarGrid.addEventListener("keydown", (event) => {
+    const btn = event.target.closest("button[data-date]");
+    if (!btn) return;
+    const [y, m, d] = btn.dataset.date.split("-").map(Number);
+    const current = new Date(y, m - 1, d, 12);
+    const next = new Date(current);
+
+    if (event.key === "ArrowLeft") next.setDate(next.getDate() - 1);
+    else if (event.key === "ArrowRight") next.setDate(next.getDate() + 1);
+    else if (event.key === "ArrowUp") next.setDate(next.getDate() - 7);
+    else if (event.key === "ArrowDown") next.setDate(next.getDate() + 7);
+    else if (event.key === "Home") next.setDate(next.getDate() - ((next.getDay() + 6) % 7));
+    else if (event.key === "End") next.setDate(next.getDate() + (6 - ((next.getDay() + 6) % 7)));
+    else if (event.key === "PageUp" || event.key === "PageDown") {
+      const delta = event.key === "PageUp" ? -1 : 1;
+      next.setDate(1);
+      next.setMonth(current.getMonth() + delta);
+      next.setDate(Math.min(d, daysInMonth(next.getFullYear(), next.getMonth())));
+    } else return;
+
+    event.preventDefault();
+    selectDate(next);
+    calendarGrid.querySelector(`[data-date="${toISODate(next)}"]`)?.focus();
+  });
+
+  if (historyDate) historyDate.value = toISODate(today);
+  if (selectedLabel) selectedLabel.textContent = "Aujourd’hui";
+  renderCalendar();
+})();
+</script>
+
+</body>
+
+</html>
