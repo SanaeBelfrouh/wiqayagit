@@ -239,11 +239,14 @@ In short, this PoC is a **working, reproducible pipeline**, not yet a reliable p
 ## 9. Team, licence and attribution
 
 **Team Wiqaya, Morocco:**
-- **Sanae BELFROUH**
-- **Wiame KANE**
-- **Yassine AZMOU**
-- **Mohammed Yassine SOF**
-- **Hajar ELOUATIQ**
+
+| Member | Role |
+|---|---|
+| **Sanae BELFROUH** | AI model and its deployment on the website |
+| **Wiame KANE** | Design and development of the AI model |
+| **Yassine AZMOU** | AI model |
+| **Mohammed Yassine SOF** | Web development |
+| **Hajar ELOUATIQ** | Web development |
 
 **Licence.** Code under the [MIT licence](LICENSE). Data keep their own licences (see [section 3](#3-data-used)).
 
