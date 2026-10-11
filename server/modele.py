@@ -1,6 +1,6 @@
 """Modèle de risque d'incendie code208 (forêt de Bouhachem / Jbel Sougna), version servie par le site Wiqaya.
 
-Reprend les parties du notebook `Sanaa/code208_risque_feu_autonome.ipynb` qui tournent avec les données du dépôt :
+Reprend les parties du notebook `model/code208_risque_feu_autonome.ipynb` qui tournent avec les données du dépôt :
   - grille unique de 250 m sur les 6 parties de la forêt (cellule 3) ;
   - facteurs structurels : altitude, pente, exposition (MNT), population (cellule 9) ;
   - historique des feux FIRMS -> années depuis le dernier feu + règle du combustible (cellule 22) ;
@@ -43,12 +43,12 @@ from sklearn.preprocessing import StandardScaler
 log = logging.getLogger('wiqaya.modele')
 
 RACINE = Path(__file__).resolve().parent.parent
-DATA = Path(os.environ.get('WIQAYA_DATA', RACINE / 'data' / 'data'))
-FOREST = DATA / 'foret' / 'limites_forets.shp'
-DEM = DATA / 'mnt' / 'mnt_bouhachem.tif'
-POPULATION = DATA / 'population_2017_26191_100m.tif'
-FIRMS_DIR = DATA / 'feux_FIRMS'
-CACHE = Path(os.environ.get('WIQAYA_CACHE', RACINE / 'resultats' / 'web'))
+DATA = Path(os.environ.get('WIQAYA_DATA', RACINE / 'data'))
+FOREST = DATA / 'forest' / 'limites_forets.shp'
+DEM = DATA / 'dem' / 'mnt_bouhachem.tif'
+POPULATION = DATA / 'population' / 'population_2017_26191_100m.tif'
+FIRMS_DIR = DATA / 'firms'
+CACHE = Path(os.environ.get('WIQAYA_CACHE', RACINE / 'server' / 'cache'))
 
 # Mêmes constantes que le notebook (cellules 2, 22 et 32).
 CRS = 'EPSG:26191'; GRID = 250; SEED = 93

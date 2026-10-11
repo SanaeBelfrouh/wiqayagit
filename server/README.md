@@ -1,6 +1,6 @@
 # Serveur Wiqaya : modèle code208 + site web
 
-Le serveur sert le site (`wiqaya final result/wiqaya ss/`) et une API qui fait tourner le modèle de risque
+Le serveur sert le site (`website/`) et une API qui fait tourner le modèle de risque
 d'incendie de la forêt de Bouhachem / Jbel Sougna.
 
 ## Lancer le site
@@ -10,19 +10,19 @@ Depuis la racine du dépôt, avec Python 3.11 ou plus récent :
 ```bash
 python -m venv .venv
 source .venv/bin/activate          # Windows : .venv\Scripts\activate
-pip install -r serveur/requirements.txt
-python serveur/app.py
+pip install -r server/requirements.txt
+python server/app.py
 ```
 
 Ouvrir ensuite <http://localhost:8000>. La carte plein écran est sur <http://localhost:8000/carte.html>.
 
 Le premier lancement prépare le modèle : grille, facteurs du terrain, FIRMS, validation. Cela prend de 3 à 5 minutes.
-Le résultat est gardé dans `resultats/web/`, et les lancements suivants démarrent en quelques secondes.
-Si un fichier de `data/data/` change, le modèle est recalculé automatiquement.
+Le résultat est gardé dans `server/cache/`, et les lancements suivants démarrent en quelques secondes.
+Si un fichier de `data/` change, le modèle est recalculé automatiquement.
 
 ## Ce que fait le modèle
 
-Il reprend les parties du notebook `Sanaa/code208_risque_feu_autonome.ipynb` que les données du dépôt permettent de faire tourner :
+Il reprend les parties du notebook `model/code208_risque_feu_autonome.ipynb` que les données du dépôt permettent de faire tourner :
 
 | Étape | Notebook | Ici |
 |---|---|---|
@@ -45,14 +45,14 @@ Les scores de validation et des tests indépendants sont renvoyés par l'API dan
 | `GET /api/risque[?date=AAAA-MM-JJ]` | cellules en GeoJSON (WGS 84) : `susceptibilite`, `classe_risque` (1 à 5), `alerte_feu`… Le `resume` contient le danger météo et les scores du modèle |
 | `GET /api/feux?date=AAAA-MM-JJ[&jours=N]` | détections FIRMS à moins de 5 km de la forêt |
 | `GET /api/foret` | limites des 6 parties de la forêt |
-| `POST /api/trpc/alerts.subscribe` | formulaire d'alerte du site. Les inscriptions sont enregistrées dans `resultats/web/inscriptions.jsonl` (non versionné) |
+| `POST /api/trpc/alerts.subscribe` | formulaire d'alerte du site. Les inscriptions sont enregistrées dans `server/cache/inscriptions.jsonl` (non versionné) |
 
 ## Variables d'environnement
 
 - `PORT` : port du serveur, 8000 par défaut.
 - `HOST` : adresse d'écoute, `127.0.0.1` par défaut.
-- `WIQAYA_DATA` : dossier des données, `data/data` par défaut.
-- `WIQAYA_CACHE` : dossier du cache, `resultats/web` par défaut.
+- `WIQAYA_DATA` : dossier des données, `data` par défaut.
+- `WIQAYA_CACHE` : dossier du cache, `server/cache` par défaut.
 
 Il faut une connexion internet : la météo et la climatologie viennent d'Open-Meteo, et le fond de carte d'OpenStreetMap.
 Si Open-Meteo ne répond pas, la carte s'affiche quand même et le danger météo apparaît comme « Non disponible ».

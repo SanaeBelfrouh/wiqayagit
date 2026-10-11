@@ -1,4 +1,4 @@
-// Carte du risque d'incendie (modèle code208) : interroge l'API du serveur Wiqaya (serveur/app.py)
+// Carte du risque d'incendie (modèle code208) : interroge l'API du serveur Wiqaya (server/app.py)
 // et affiche les cellules de 250 m, le danger météo du jour et l'historique des détections FIRMS.
 (function () {
   const conteneur = document.querySelector("#carteRisque");
@@ -131,7 +131,7 @@
       coucheForet.addData(foret);
       carte.fitBounds(coucheForet.getBounds(), { padding: [10, 10] });
     })
-    .catch(() => erreur("Lancez le serveur (python serveur/app.py) puis ouvrez http://localhost:8000."));
+    .catch(() => erreur("Lancez le serveur (python server/app.py) puis ouvrez http://localhost:8000."));
 
   fetch("/api/risque")
     .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))

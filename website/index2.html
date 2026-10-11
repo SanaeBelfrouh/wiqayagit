@@ -1080,7 +1080,7 @@
             ? t("{n} détection(s) satellite FIRMS, dont {f} dans la forêt : points affichés sur la carte.", { n: r.detections, f: r.dans_foret })
             : t("Aucune détection FIRMS ce jour-là (données disponibles jusqu’au {date}).", { date: new Date(r.firms_jusqu_au).toLocaleDateString(locale()) });
         })
-        .catch(() => { historyResults.textContent = t("Archives indisponibles : lancez le serveur Wiqaya (python serveur/app.py)."); });
+        .catch(() => { historyResults.textContent = t("Archives indisponibles : lancez le serveur Wiqaya (python server/app.py)."); });
     }
     renderCalendar();
   }

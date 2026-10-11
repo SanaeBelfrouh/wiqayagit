@@ -8,9 +8,9 @@ Contenu :
 - i18n.js : traduction du site en français, anglais et arabe (bouton 🌐 de l’en-tête, ou ?lang=fr|en|ar)
 
 Utilisation :
-1. Depuis la racine du dépôt : pip install -r serveur/requirements.txt puis python serveur/app.py
+1. Depuis la racine du dépôt : pip install -r server/requirements.txt puis python server/app.py
 2. Ouvrez http://localhost:8000 (page index2.html) ou http://localhost:8000/carte.html (carte plein écran).
-   Voir serveur/README.md pour le détail du modèle et de l’API.
+   Voir server/README.md pour le détail du modèle et de l’API.
 
 La carte, le danger météo du jour et l’historique (calendrier -> détections FIRMS) viennent du serveur.
 La liste « incendies en cours » reste une donnée de démonstration. Le formulaire d’alerte envoie les inscriptions

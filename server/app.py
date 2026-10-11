@@ -1,8 +1,8 @@
 """Serveur Wiqaya : sert le site web et l'API du modèle de risque d'incendie code208.
 
 Lancement (depuis la racine du dépôt) :
-    pip install -r serveur/requirements.txt
-    python serveur/app.py            # puis ouvrir http://localhost:8000
+    pip install -r server/requirements.txt
+    python server/app.py            # puis ouvrir http://localhost:8000
 """
 import json
 import logging
@@ -23,7 +23,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import modele as m  # noqa: E402
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(name)s : %(message)s')
-SITE = m.RACINE / 'wiqaya final result' / 'wiqaya ss'
+SITE = m.RACINE / 'website'
 INSCRIPTIONS = m.CACHE / 'inscriptions.jsonl'
 
 modele = None

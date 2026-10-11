@@ -39,20 +39,20 @@ git checkout wiqaya-hackathon
 
 python -m venv .venv
 source .venv/bin/activate            # Windows: .venv\Scripts\activate
-pip install -r serveur/requirements.txt
+pip install -r server/requirements.txt
 
-python serveur/app.py
+python server/app.py
 ```
 
 Then open **http://localhost:8000**. The full-screen map is at **http://localhost:8000/carte.html**.
 
 The first start prepares the model, which takes 3 to 5 minutes. It builds the grid, computes terrain
-features, reads FIRMS and runs the validation. The result is cached in `resultats/web/`, so later starts
-take a few seconds. The cache is rebuilt automatically when a file in `data/data/` changes.
+features, reads FIRMS and runs the validation. The result is cached in `server/cache/`, so later starts
+take a few seconds. The cache is rebuilt automatically when a file in `data/` changes.
 
 ## How the model works
 
-### Research model (`Sanaa/code208_risque_feu_autonome.ipynb`)
+### Research model (`model/code208_risque_feu_autonome.ipynb`)
 
 The full notebook models the risk on a 250 m grid in Merchich / Nord Maroc (EPSG:26191). It separates two questions:
 
@@ -73,9 +73,9 @@ The notebook uses 29 inputs:
 - fire history: past fire density and power (FIRMS);
 - daily weather (Open-Meteo).
 
-Every input and formula is documented in [`docs/inputs_modele_risque_feu.pdf`](docs/inputs_modele_risque_feu.pdf) (in French).
+Every input and formula is documented in [`docs/inputs_modele_risque_feu.pdf`](docs/inputs_modele_risque_feu.pdf) (in French; its file paths refer to the original project layout).
 
-### Web model (`serveur/modele.py`)
+### Web model (`server/modele.py`)
 
 The website runs the parts of the notebook that work with the data in this repository, with the same
 formulas and parameters:
@@ -117,7 +117,7 @@ or human access. Planned next steps:
 | `GET /api/risque[?date=YYYY-MM-DD]` | Risk cells as GeoJSON (WGS 84): `susceptibilite`, `classe_risque` (1–5), `alerte_feu`, terrain and history fields. `resume` holds the weather danger, the model name, its validation and test scores and its feature importance. |
 | `GET /api/feux?date=YYYY-MM-DD[&jours=N]` | NASA FIRMS detections within 5 km of the forest |
 | `GET /api/foret` | Outline of the 6 forest parts |
-| `POST /api/trpc/alerts.subscribe` | Alert sign-up used by the website form. Stored in `resultats/web/inscriptions.jsonl`, which is not versioned. |
+| `POST /api/trpc/alerts.subscribe` | Alert sign-up used by the website form. Stored in `server/cache/inscriptions.jsonl`, which is not versioned. |
 
 Environment variables:
 
@@ -125,28 +125,29 @@ Environment variables:
 |---|---|---|
 | `PORT` | `8000` | Server port |
 | `HOST` | `127.0.0.1` | Listening address |
-| `WIQAYA_DATA` | `data/data` | Data folder |
-| `WIQAYA_CACHE` | `resultats/web` | Cache folder |
+| `WIQAYA_DATA` | `data` | Data folder |
+| `WIQAYA_CACHE` | `server/cache` | Cache folder |
 
 ## Repository structure
 
 ```
-├── wiqaya final result/wiqaya ss/     Website (HTML / CSS / JavaScript)
-│   ├── index2.html                    Home page
-│   ├── carte.html                     Full-screen risk map
-│   ├── carte-risque.js / .css         Risk map (Leaflet)
-│   ├── i18n.js                        French / English / Arabic translations
-│   └── wiqaya.js / wiqaya.css         Page interactions and styles
-├── serveur/                           Python server (FastAPI)
-│   ├── app.py                         Website + API
-│   └── modele.py                      Fire-risk model used by the website
-├── Sanaa/                             Full research notebook (code208)
-├── data/data/                         GIS inputs, all in EPSG:26191
-│   ├── foret/limites_forets.shp       Forest boundaries (6 parts)
-│   ├── mnt/mnt_bouhachem.tif          Digital elevation model
-│   ├── feux_FIRMS/                    NASA FIRMS fire detections (MODIS, VIIRS)
-│   └── population_2017_26191_100m.tif WorldPop 2017, clipped to the study area
-└── docs/                              Screenshots and model-inputs documentation
+├── website/                            Website (HTML / CSS / JavaScript)
+│   ├── index2.html                     Home page
+│   ├── carte.html                      Full-screen risk map
+│   ├── carte-risque.js / .css          Risk map (Leaflet)
+│   ├── i18n.js                         French / English / Arabic translations
+│   └── wiqaya.js / wiqaya.css          Page interactions and styles
+├── server/                             Python server (FastAPI)
+│   ├── app.py                          Website + API
+│   ├── modele.py                       Fire-risk model used by the website
+│   └── requirements.txt
+├── model/                              Full research notebook (code208) and how to run it
+├── data/                               GIS inputs, all in EPSG:26191
+│   ├── forest/limites_forets.shp       Forest boundaries (6 parts)
+│   ├── dem/mnt_bouhachem.tif           Digital elevation model
+│   ├── firms/                          NASA FIRMS fire detections (MODIS, VIIRS)
+│   └── population/                     WorldPop 2017, clipped to the study area
+└── docs/                               Screenshots and model-inputs documentation
 ```
 
 ## Data sources

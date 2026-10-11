@@ -48,7 +48,7 @@
     ["Danger modéré : pas d'alerte, la carte montre les zones les plus sensibles.", "Moderate danger: no alert, the map shows the most sensitive areas.", "خطر متوسط: لا إنذار، تُظهر الخريطة المناطق الأكثر حساسية."],
     ["Open-Meteo n'a pas répondu : danger météo non calculé.", "Open-Meteo did not respond: weather danger not computed.", "لم يستجب Open-Meteo: لم يُحسب الخطر المناخي."],
     ["Modèle indisponible", "Model unavailable", "النموذج غير متوفر"],
-    ["Lancez le serveur (python serveur/app.py) puis ouvrez http://localhost:8000.", "Start the server (python serveur/app.py) then open http://localhost:8000.", "شغّل الخادم (python serveur/app.py) ثم افتح http://localhost:8000."],
+    ["Lancez le serveur (python server/app.py) puis ouvrez http://localhost:8000.", "Start the server (python server/app.py) then open http://localhost:8000.", "شغّل الخادم (python server/app.py) ثم افتح http://localhost:8000."],
     ["L'API /api/risque ne répond pas ({e}).", "The /api/risque API is not responding ({e}).", "واجهة /api/risque لا تستجيب ({e})."],
     ["zone en alerte", "alert zone", "منطقة إنذار"],
     ["Susceptibilité", "Susceptibility", "القابلية للاشتعال"],
@@ -78,7 +78,7 @@
     ["Recherche des détections FIRMS…", "Looking up FIRMS detections…", "جارٍ البحث عن رصد FIRMS…"],
     ["{n} détection(s) satellite FIRMS, dont {f} dans la forêt : points affichés sur la carte.", "{n} FIRMS satellite detection(s), {f} inside the forest: points shown on the map.", "{n} رصد بالأقمار الصناعية FIRMS، منها {f} داخل الغابة: النقاط معروضة على الخريطة."],
     ["Aucune détection FIRMS ce jour-là (données disponibles jusqu’au {date}).", "No FIRMS detection that day (data available until {date}).", "لا يوجد أي رصد FIRMS في ذلك اليوم (البيانات متوفرة حتى {date})."],
-    ["Archives indisponibles : lancez le serveur Wiqaya (python serveur/app.py).", "Archive unavailable: start the Wiqaya server (python serveur/app.py).", "الأرشيف غير متوفر: شغّل خادم وقاية (python serveur/app.py)."],
+    ["Archives indisponibles : lancez le serveur Wiqaya (python server/app.py).", "Archive unavailable: start the Wiqaya server (python server/app.py).", "الأرشيف غير متوفر: شغّل خادم وقاية (python server/app.py)."],
     ["♧ Être alerté par SMS", "♧ Get SMS alerts", "♧ تلقَّ التنبيهات عبر الرسائل القصيرة"],
 
     // Liste des feux (données de démonstration) et localisation
