@@ -242,8 +242,8 @@ In short, this PoC is a **working, reproducible pipeline**, not yet a reliable p
 
 | Member | Role |
 |---|---|
-| **Sanae BELFROUH** | AI model and its deployment on the website |
 | **Wiame KANE** | Design and development of the AI model, geomatics |
+| **Sanae BELFROUH** | AI model and its deployment on the website |
 | **Yassine AZMOU** | AI model, geomatics |
 | **Mohammed Yassine SOF** | Web development |
 | **Hajar ELOUATIQ** | Web development |
