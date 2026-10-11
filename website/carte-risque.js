@@ -17,8 +17,8 @@
   };
   // Classes de danger renvoyées par l'API -> libellé (français, traduit par t) et couleur
   const DANGER = {
-    faible: ["Faible", "#1a9850"], "modéré": ["Modéré", "#d8b34c"], "élevé": ["Élevé", "#ec8a2a"],
-    "très élevé": ["Très élevé", "#ff3131"], inconnu: ["Non disponible", "#81909a"],
+    low: ["Faible", "#1a9850"], moderate: ["Modéré", "#d8b34c"], high: ["Élevé", "#ec8a2a"],
+    "very high": ["Très élevé", "#ff3131"], unknown: ["Non disponible", "#81909a"],
   };
 
   const carte = L.map(conteneur, { preferCanvas: true, zoomControl: true, attributionControl: true }).setView([35.25, -5.45], 11);
@@ -43,22 +43,22 @@
   const fmt = (v, d = 0) => (v === null || v === undefined ? "—" : Number(v).toLocaleString(locale(), { maximumFractionDigits: d, minimumFractionDigits: d }));
 
   function popupCellule(p) {
-    const dernierFeu = p.annees_depuis_dernier_feu >= 20 ? t("aucun depuis 2005") : t("il y a {n} an(s)", { n: fmt(p.annees_depuis_dernier_feu, 1) });
+    const dernierFeu = p.years_since_last_fire >= 20 ? t("aucun depuis 2005") : t("il y a {n} an(s)", { n: fmt(p.years_since_last_fire, 1) });
     return `<div dir="auto">
-      <strong>${t(CLASSES[p.classe_risque]?.label || "?")}</strong>${p.alerte_feu ? ` · <b style="color:#d73027">${t("zone en alerte")}</b>` : ""}<br>
-      ${t("Susceptibilité")}${deuxPoints()}${fmt(100 * p.susceptibilite, 1)} %<br>
+      <strong>${t(CLASSES[p.risk_class]?.label || "?")}</strong>${p.alert ? ` · <b style="color:#d73027">${t("zone en alerte")}</b>` : ""}<br>
+      ${t("Susceptibilité")}${deuxPoints()}${fmt(100 * p.susceptibility, 1)} %<br>
       ${t("Dernier feu connu")}${deuxPoints()}${dernierFeu}<br>
-      ${t("Altitude")}${deuxPoints()}${fmt(p.altitude_m)} m · ${t("pente")}${deuxPoints()}${fmt(p.pente_pct)} %<br>
-      ${t("Population")}${deuxPoints()}${fmt(p.population)} ${t("hab.")} · ${t("partie")} ${p.partie}</div>`;
+      ${t("Altitude")}${deuxPoints()}${fmt(p.elevation_m)} m · ${t("pente")}${deuxPoints()}${fmt(p.slope_pct)} %<br>
+      ${t("Population")}${deuxPoints()}${fmt(p.population)} ${t("hab.")} · ${t("partie")} ${p.part}</div>`;
   }
 
   const coucheForet = L.geoJSON(null, { style: { color: "#0b3446", weight: 1, opacity: 0.5, fill: false }, interactive: false }).addTo(carte);
   const coucheFeux = L.layerGroup().addTo(carte);
   const coucheRisque = L.geoJSON(null, {
     style: (f) => ({
-      color: f.properties.alerte_feu ? "#7a0000" : "transparent",
-      weight: f.properties.alerte_feu ? 1 : 0,
-      fillColor: CLASSES[f.properties.classe_risque]?.couleur || "#ccc",
+      color: f.properties.alert ? "#7a0000" : "transparent",
+      weight: f.properties.alert ? 1 : 0,
+      fillColor: CLASSES[f.properties.risk_class]?.couleur || "#ccc",
       fillOpacity: 0.62,
     }),
     // Contenu calculé à l'ouverture : la popup suit la langue choisie
@@ -100,19 +100,19 @@
     }
     if (!dernierResume) { zoneDanger.textContent = t("Chargement du modèle…"); return; }
     const resume = dernierResume, d = resume.danger;
-    const [libelle, couleur] = DANGER[d.classe] || DANGER.inconnu;
+    const [libelle, couleur] = DANGER[d.class] || DANGER.unknown;
     const date = new Date(resume.date).toLocaleDateString(locale(), { day: "numeric", month: "long", year: "numeric" });
-    const meteo = d.meteo
-      ? `<span>${fmt(d.meteo.temperature_2m_max)} °C · ${t("HR min")} ${fmt(d.meteo.relative_humidity_2m_min)} % · ${t("vent")} ${fmt(d.meteo.wind_speed_10m_max)} ${t("km/h")}</span>`
+    const meteo = d.weather
+      ? `<span>${fmt(d.weather.temperature_2m_max)} °C · ${t("HR min")} ${fmt(d.weather.relative_humidity_2m_min)} % · ${t("vent")} ${fmt(d.weather.wind_speed_10m_max)} ${t("km/h")}</span>`
       : "";
     // Comme dans le notebook : l'alerte n'est opérationnelle que si le danger météo est élevé ou très élevé
-    const message = resume.alerte_operationnelle ? t("Alerte active sur les zones encadrées.")
-      : d.classe === "inconnu" ? t("Open-Meteo n'a pas répondu : danger météo non calculé.")
-        : d.classe === "modéré" ? t("Danger modéré : pas d'alerte, la carte montre les zones les plus sensibles.")
+    const message = resume.operational_alert ? t("Alerte active sur les zones encadrées.")
+      : d.class === "unknown" ? t("Open-Meteo n'a pas répondu : danger météo non calculé.")
+        : d.class === "moderate" ? t("Danger modéré : pas d'alerte, la carte montre les zones les plus sensibles.")
           : t("Journée peu dangereuse : la carte montre les zones les plus sensibles.");
     zoneDanger.innerHTML = `
       <small>${t("DANGER MÉTÉO")} · ${date}</small>
-      <strong style="color:${couleur}">${t(libelle)}${d.indice !== null ? ` <em>${fmt(d.indice, 2)}</em>` : ""}</strong>
+      <strong style="color:${couleur}">${t(libelle)}${d.index !== null ? ` <em>${fmt(d.index, 2)}</em>` : ""}</strong>
       ${meteo}<span>${message}</span>`;
   }
 
@@ -125,7 +125,7 @@
   afficherDanger();
   window.addEventListener("wiqaya:langue", () => { afficherLegende(); afficherDanger(); carte.closePopup(); });
 
-  fetch("/api/foret")
+  fetch("/api/forest")
     .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
     .then((foret) => {
       coucheForet.addData(foret);
@@ -133,31 +133,31 @@
     })
     .catch(() => erreur("Lancez le serveur (python server/app.py) puis ouvrez http://localhost:8000."));
 
-  fetch("/api/risque")
+  fetch("/api/risk")
     .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
     .then((data) => {
       coucheRisque.addData(data);
       coucheForet.bringToFront();
-      dernierResume = data.resume;
+      dernierResume = data.summary;
       afficherDanger();
       const maj = document.querySelector("#updatedAt");
       if (maj) maj.textContent = new Date().toLocaleTimeString(locale(), { hour: "2-digit", minute: "2-digit" });
-      window.dispatchEvent(new CustomEvent("wiqaya:risque", { detail: data.resume }));
+      window.dispatchEvent(new CustomEvent("wiqaya:risque", { detail: data.summary }));
     })
-    .catch((e) => erreur("L'API /api/risque ne répond pas ({e}).", { e }));
+    .catch((e) => erreur("L'API /api/risk ne répond pas ({e}).", { e }));
 
   // Historique : détections FIRMS d'une date (appelé par le calendrier de index2.html)
   window.wiqayaFeux = async function (isoDate) {
-    const r = await fetch(`/api/feux?date=${isoDate}`);
+    const r = await fetch(`/api/fires?date=${isoDate}`);
     if (!r.ok) throw new Error(`API ${r.status}`);
     const data = await r.json();
     coucheFeux.clearLayers();
     L.geoJSON(data, {
       pointToLayer: (f, latlng) => L.circleMarker(latlng, {
-        radius: 6, color: "#fff", weight: 1.5, fillColor: f.properties.dans_foret ? "#ff3131" : "#ec8a2a", fillOpacity: 0.95,
-      }).bindPopup(() => `<div dir="auto"><strong>${t("Détection FIRMS")}</strong><br>${new Date(f.properties.date).toLocaleDateString(locale())} · FRP ${fmt(f.properties.frp, 1)} MW<br>${t(f.properties.dans_foret ? "dans la forêt" : "à moins de 5 km de la forêt")}</div>`),
+        radius: 6, color: "#fff", weight: 1.5, fillColor: f.properties.inside_forest ? "#ff3131" : "#ec8a2a", fillOpacity: 0.95,
+      }).bindPopup(() => `<div dir="auto"><strong>${t("Détection FIRMS")}</strong><br>${new Date(f.properties.date).toLocaleDateString(locale())} · FRP ${fmt(f.properties.frp, 1)} MW<br>${t(f.properties.inside_forest ? "dans la forêt" : "à moins de 5 km de la forêt")}</div>`),
     }).addTo(coucheFeux);
     if (data.features.length) carte.fitBounds(L.geoJSON(data).getBounds().pad(0.3), { maxZoom: 13 });
-    return data.resume;
+    return data.summary;
   };
 })();

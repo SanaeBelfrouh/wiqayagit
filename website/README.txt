@@ -8,7 +8,7 @@ Files:
 - wiqaya.js / wiqaya.css : page interactions, alert form, styles and responsive design
 
 Usage:
-1. From the repository root: pip install -r server/requirements.txt then python server/app.py
+1. From the repository root: pip install -r requirements.txt then python server/app.py
 2. Open http://localhost:8000 (home page) or http://localhost:8000/carte.html (full-screen map).
    See the main README.md for the model and the API.
 

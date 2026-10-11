@@ -1,295 +1,273 @@
-# Wiqaya — Wildfire risk monitoring for Moroccan forests
+# Wiqaya — Wildfire risk mapping and alerts for the forests of northern Morocco
 
-> **Arab Youth Space Hackathon 2026 · Proof of Concept**
-> Track: **Climate & Disaster Resilience** · Study area: Bouhachem, Derdara and Jbel Sougna forests (Rif, northern Morocco)
+**Team:** Wiqaya (Morocco) · **Theme:** Climate & Disaster Resilience · **Arab Youth Space Hackathon 2026, Proof of Concept**
 
-**Wiqaya** (وقاية, *"prevention"*) turns Earth-observation data into a daily, cell-by-cell wildfire risk map
-and citizen alerts for the forests of the western Rif.
-- **Inputs:** NASA FIRMS satellite fire detections, Sentinel-2 and Landsat imagery, terrain, population and weather.
-- **Model:** a machine-learning fire-risk model trained on documented fires.
-- **Output:** a web platform in **English, French and Arabic**.
+**Wiqaya** (وقاية, *"prevention"*) turns 20 years of NASA FIRMS satellite fire detections, terrain and population data
+into a **250 m fire-susceptibility map** of the Bouhachem, Derdara and Jbel Sougna forests (25,900 ha). It adds a
+**daily weather danger index** and delivers both to forest managers and residents through a trilingual web platform
+(English, French, Arabic).
 
-![Wiqaya home page](docs/screenshots/home-en.png)
+![Headline result: fire-risk classes on 1 August 2025 and the 2025 fires used as blind test](results/example_output.png)
 
-**Contents**
-1. [Problem definition](#1-problem-definition)
-2. [Solution and product](#2-solution-and-product)
-3. [Earth-observation data](#3-earth-observation-data)
-4. [Methodology and technical robustness](#4-methodology-and-technical-robustness)
-5. [Innovation](#5-innovation)
-6. [Impact and strategic alignment](#6-impact-and-strategic-alignment)
-7. [Commercial viability](#7-commercial-viability-brief-business-plan)
-8. [Run the proof of concept](#8-run-the-proof-of-concept)
-9. [Data sources and citations](#9-data-sources-and-citations)
-10. [Repository structure](#10-repository-structure)
-11. [Team](#11-team)
+**Contents:**
+1. [Business use case](#1-business-use-case)
+2. [Problem](#2-problem)
+3. [Data used](#3-data-used)
+4. [Technical approach](#4-technical-approach)
+5. [Installation](#5-installation)
+6. [How to run](#6-how-to-run)
+7. [Example input and output](#7-example-input-and-output)
+8. [Results and limitations](#8-results-and-limitations)
+9. [Team, licence and attribution](#9-team-licence-and-attribution)
 
 ---
 
-## 1. Problem definition
+## 1. Business use case
 
-The Mediterranean forests of the western Rif burn almost every summer. Hot, dry easterly winds (*chergui*),
-steep slopes and villages (*douars*) inside the forest make the fires fast and dangerous.
-
-**Recent fires in and around the study area** (dates and areas compiled in the research notebook):
-
-| Fire | Dates | Burned area |
-|---|---|---|
-| Bouhachem | 25 Jul – 2 Aug 2022 | > 7,500 ha |
-| Sahel El Menzla / Larache, neighbouring forest | 13–18 Jul 2022 | > 10,500 ha |
-| Derdara / Jbel Sougna | 14–18 Aug 2021 | ~ 1,100 ha |
-| Bouhachem | 25 Aug – 1 Sep 2020 | ~ 1,100 ha |
-| Two fires in Derdara / Bouhachem | Aug 2025 | blind test of the model |
-
-**People exposed:** WorldPop 2017 counts about **10,600 inhabitants inside the forest** and
-**264,000 within 10 km of it**.
-
-**The gap:**
-- Forest managers and residents have no **local, daily and public** view of where the risk is highest.
-- National fire-danger bulletins work at province scale.
-- Satellite fire detections arrive only **after** ignition.
-- Alerts are not delivered in the languages people use (Arabic, French).
-
-## 2. Solution and product
-
-Wiqaya is a web platform backed by a fire-risk model. It answers two questions: **where** in the forest is
-the risk highest, and **is today a dangerous day**.
-
-| Feature | What it does |
+| | |
 |---|---|
-| **Daily fire-risk map** | The forest is split into **6,071 cells of 250 m**. Each cell gets a fire susceptibility, shown in 5 risk classes. The 20 % riskiest cells are outlined as *alert zones*. Clicking a cell explains its score: susceptibility, years since the last fire, elevation, slope and population. |
-| **Weather danger of the day** | Today's forecast (max temperature, min humidity, max wind, max vapour-pressure deficit) is ranked against every summer day of 2017–2024. This gives an index from 0 to 1 (low / moderate / high / very high). Alerts become operational when the danger is high or very high. |
-| **Fire history** | Pick any date to see that day's **NASA FIRMS** satellite fire detections on the map (MODIS since 2005, VIIRS since 2017). |
-| **Citizen alerts** | Residents subscribe to SMS and email alerts for their forest. |
-| **3 languages** | English, French and Arabic, with a full right-to-left layout for Arabic. The site follows the browser language, and `?lang=en`, `?lang=ar` or `?lang=fr` can be added to any link. |
-| **Open API** | The same data is available as GeoJSON for other tools (see [§8](#api)). |
+| **Users** | Forest managers of the national forestry agency (ANEF), Civil Protection, provinces and communes in the Rif. Residents of the villages (*douars*) inside and around the forest. |
+| **Decision** | Each summer morning: **where** to send patrols, watch-tower crews and first-intervention teams, and **whether** today is dangerous enough to warn residents and restrict risky activities (burning, BBQs, works). |
+| **What they use today** | Province-scale fire-danger bulletins, field knowledge, and satellite fire detections (NASA FIRMS, EFFIS) that arrive only **after** a fire has started. There is no public, cell-level, daily view of risk, and alerts do not reach residents in Arabic and French. |
+| **What Wiqaya gives them** | A 250 m risk map with the 20 % riskiest cells outlined as alert zones and an explanation for each cell, a daily weather danger index, the full fire history on a calendar, SMS / email alert sign-up, and an open GeoJSON API for their own GIS tools. |
+| **Business model** | Subscription per protected area for institutions (dashboard, API, alert dispatch). Free citizen alerts, funded by the institutional contracts or by CSR partners. Built on open data, so there is no imagery cost for the base service. |
+
+## 2. Problem
+
+- **The western Rif burns almost every summer.** Hot, dry *chergui* winds, steep slopes and villages inside the forest
+  make fires fast and dangerous. In and around the study area:
+  - Bouhachem, July 2022: more than 7,500 ha;
+  - Larache / Sahel El Menzla, July 2022: more than 10,500 ha;
+  - Derdara, 2021: about 1,100 ha;
+  - Bouhachem, 2020: about 1,100 ha;
+  - two new fires in August 2025.
+- **People are exposed.** WorldPop 2017 counts about **10,600 inhabitants inside the forest** and **264,000 within 10 km**.
+- **The information gap.** Danger bulletins are coarse (province scale). Fire detections come after ignition. No product
+  says *which 250 m cells* deserve attention *today*.
+- **Why satellite data is the right instrument:**
+  - NASA FIRMS has recorded every active fire here since 2005 (MODIS) and at 375 m since 2017 (VIIRS). This gives the
+    only consistent, 20-year, wall-to-wall fire history of these remote mountains.
+  - Elevation models and gridded population cover the same area uniformly.
+  - Sentinel-2 and Landsat measure vegetation and burned areas (research notebook).
+  - Field records cannot provide this coverage.
+
+## 3. Data used
+
+| Dataset | Product and provider | Dates | Processing level | Licence | Used in |
+|---|---|---|---|---|---|
+| Active fires | **NASA FIRMS**: MODIS Collection 6.1 active fires (1 km) and VIIRS S-NPP 375 m Collection 2 active fires | 2005-05-09 → 2026-06-05 (1,176 detections within 5 km of the forest) | Level-2 active-fire points (archive and NRT), clipped to the AOI | NASA open data, no restriction | Main notebook, platform |
+| Terrain | ≈30 m digital elevation model, prepared by the team (provider to be confirmed) | static | Reprojected to EPSG:26191, clipped to the forest + 1 km; slope and aspect derived | see provider | Main notebook, platform |
+| Population | **WorldPop** `mar_ppp_2017`, unconstrained, 3 arc-seconds | 2017 | Clipped to the forest + 10 km, reprojected to 100 m (sum resampling, totals within 0.1 %) | CC BY 4.0 | Main notebook, platform |
+| Forest boundaries | 6-part forest polygon, prepared by the team | 2026 | Vector, EPSG:26191 | Shared with this repository | Main notebook, platform |
+| Weather | **Open-Meteo** Historical Weather API (ERA5 / ERA5-Land reanalysis) and Forecast API: hourly 2 m temperature, 2 m relative humidity, 10 m wind | 2017-06-01 → 2025-09-30, plus today's forecast | Hourly → daily max / min, VPD computed | CC BY 4.0 | Main notebook (step 7), platform |
+| Optical imagery | **Copernicus Sentinel-2 L2A** (B04, B08, B11, B12) via Microsoft Planetary Computer | 2015 → 2025, around each fire | Level-2A surface reflectance → NDVI, NDMI, NBR, dNBR | Copernicus open licence | Research notebook |
+| Optical imagery | **Landsat Collection 2 Level-2** (USGS) via Microsoft Planetary Computer | 2005, 2009 | Surface reflectance → same indices | USGS public domain | Research notebook |
+| Land cover | 2021 land-cover classification of the study area, prepared by the team | 2021 | 10 m raster → fuel class and flammability | team | Research notebook |
+| Human access | **OpenStreetMap** roads, tracks, buildings, villages, farmland | 2022 | Distances per cell | ODbL | Research notebook |
+
+**Hyperspectral data is not used in this PoC.** It is the first item of the incubation roadmap: EnMAP or Arab Satellite
+813 scenes could map **live fuel moisture** and **vegetation species** at cell level. Those are the two drivers that the
+current data capture only indirectly.
+
+No API key, token or environment variable is needed: FIRMS data is committed, and Open-Meteo and Planetary Computer are
+used anonymously.
+
+## 4. Technical approach
+
+The workflow below runs in this order in [`notebooks/02_main_analysis.ipynb`](notebooks/02_main_analysis.ipynb). The
+code is in [`src/wiqaya_model.py`](src/wiqaya_model.py).
+
+```
+FIRMS points ─┐
+DEM ──────────┼─► 250 m grid ─► features per cell ─► yearly panel 2017-2024 ─► leave-one-year-out ─► best model
+WorldPop ─────┘   (6,071 cells)  elevation, slope,    (label = FIRMS fire       validation          │
+                                  aspect, population,  in the cell that year)                        ▼
+                                  years since last fire                     blind test 2025 ◄── retrain 2017-2024
+                                                                                                     │
+Open-Meteo (ERA5) ─► weather danger index of the day                    susceptibility map on 2025-08-01
+                     (rank vs 2017-2024 summers)                         5 risk classes + top-20 % alert zones
+```
+
+1. **Grid.** One 250 m grid over the union of the 6 forest parts, with every cell clipped to the forest (EPSG:26191).
+2. **Terrain and population.** Mean elevation, slope (%) and aspect per cell from the DEM. Aspect uses a circular mean, so
+   355° and 5° give north. Population is the WorldPop count summed over the cell.
+3. **Fire history.** A cell has burned on a day when a FIRMS detection falls within **375 m** (half a VIIRS pixel). The
+   features `years_since_last_fire` (capped at 20) and `burned_last_5y` always use fires strictly **before** the date
+   studied, so there is no leakage.
+4. **Yearly panel.** One row per (cell, year) for 2017–2024: features on 1 January, label = at least one FIRMS
+   detection in the cell that year. That gives 48,568 cell-years, 345 of them with a fire.
+5. **Model selection.** Two candidates are compared with **leave-one-year-out** validation:
+   - logistic regression (L2, C = 0.5, balanced classes, standardised features);
+   - random forest (300 trees, depth 6, min. 10 samples per leaf, balanced).
+
+   Seed 93. The best mean ROC-AUC per year wins.
+6. **Fuel rule.** Predictions are set to 0 for cells burned less than 1 year ago, and halved for cells burned 1 to 5
+   years ago.
+7. **Blind test.** The selected model is retrained on 2017–2024 and scored on the 2025 FIRMS fires, with the fire history
+   known on 1 August 2025.
+8. **Risk map.** Susceptibility per cell on 2025-08-01, grouped into 5 classes by KMeans (`n_init` = 30). The riskiest
+   **20 %** of cells become alert zones.
+9. **Weather danger.** Daily max temperature, max vapour-pressure deficit (VPD = 0.6108·e^(17.27T/(T+237.3))·(1−RH/100)),
+   max wind and min humidity are each ranked against all June–September days of 2017–2024. The index is the mean of the
+   four ranks: low < 0.25 ≤ moderate < 0.50 ≤ high < 0.75 ≤ very high. On the platform, alerts become operational at
+   *high* and *very high*.
+
+The [research notebook](research/) extends this with a spatial "fire day" model trained on Sentinel-2 and Landsat dNBR
+burned areas of 8 fires (2005–2022), using 29 inputs: NDVI, NDMI, NBR, flammability, the topoclimate index of Assali et
+al. (2016), OpenStreetMap human pressure, and more. Every input and formula is documented in
+[`docs/inputs_modele_risque_feu.pdf`](docs/inputs_modele_risque_feu.pdf), in French.
+
+## 5. Installation
+
+Requires **Python 3.11**.
+
+```bash
+git clone https://github.com/SanaeBelfrouh/wiqayagit.git
+cd wiqayagit
+python -m venv .venv && source .venv/bin/activate      # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+## 6. How to run
+
+```bash
+jupyter lab notebooks/02_main_analysis.ipynb
+```
+
+Run all cells. Nothing needs to be edited.
+- **Runtime:** about **5 minutes** on a standard laptop, no GPU required.
+- **Reads:** the four files of `data/sample_input/`.
+- **Writes:** `results/`, with `results/example_output.png` as the headline figure.
+- **Final cell:** prints the summary (validation and blind-test scores).
+- **Optional parameter:** to study another date, change `ANALYSIS_DATE` in the first cell.
+- **Internet:** steps 1–6 run offline. Step 7 (weather danger of the 2025 fire days) needs internet, and is skipped with a
+  message if Open-Meteo does not answer.
+
+Without Jupyter's interface:
+
+```bash
+jupyter nbconvert --to notebook --execute --inplace notebooks/02_main_analysis.ipynb
+```
+
+### Optional: the web platform
+
+```bash
+python server/app.py          # then open http://localhost:8000
+```
+
+The first start prepares the model in 3 to 5 minutes, then caches it in `server/cache/`. The site follows the browser
+language (English, French or Arabic). The API is documented in [`server/README.md`](server/README.md).
+
+## 7. Example input and output
+
+**Input:** [`data/sample_input/`](data/sample_input/), 8.4 MB, clipped to the area of interest. See
+[`data/README.md`](data/README.md) for the processing of each file.
+
+| File | Content |
+|---|---|
+| `forest_boundaries.gpkg` | 6 forest parts, EPSG:26191 |
+| `dem_30m.tif` | Digital elevation model, forest + 1 km |
+| `population_2017_100m.tif` | WorldPop 2017, 100 m |
+| `firms_fire_detections.gpkg` | 1,176 NASA FIRMS detections, 2005–2026 |
+
+**Output:** everything below is produced by the notebook and committed in [`results/`](results/).
+
+| File | Content |
+|---|---|
+| `example_output.png` | **Headline figure:** risk classes and alert zones on 2025-08-01 with the 2025 fires, and fire history |
+| `validation_leave_one_year_out.csv` | Validation scores of both models, per year |
+| `blind_test_2025.csv` | Blind-test scores on the 2025 fires |
+| `risk_cells_2025-08-01.csv` | Susceptibility, class, alert and features of the 6,071 cells |
+| `study_area_firms.png` | Study area and FIRMS detections by period |
+| `feature_importance.png` | Feature importance of the selected model |
+
+| Study area and FIRMS detections | Feature importance |
+|---|---|
+| ![Study area](results/study_area_firms.png) | ![Feature importance](results/feature_importance.png) |
+
+### The same model on the web platform
 
 | Risk map and weather danger | Fire history: 25 July 2022, start of the Bouhachem fire |
 |---|---|
 | ![Risk map](docs/screenshots/risk-map-en.png) | ![Fire history](docs/screenshots/fire-history-en.png) |
 
-| Cell details | Alert sign-up |
-|---|---|
-| ![Cell popup](docs/screenshots/cell-popup-en.png) | ![Alert form](docs/screenshots/alerts-signup-en.png) |
-
-**Arabic (right-to-left)**
-
-![Arabic version](docs/screenshots/home-ar.png)
-
-### On the phone
-
-The platform is responsive: the map, the calendar, the alert form and the three languages all work on a phone.
-
-| Home | Risk map | Fire history (25 July 2022) | Alert sign-up |
-|:---:|:---:|:---:|:---:|
-| <img src="docs/screenshots/phone-home-en.png" width="200" alt="Home on a phone"> | <img src="docs/screenshots/phone-map-en.png" width="200" alt="Risk map on a phone"> | <img src="docs/screenshots/phone-fire-history-en.png" width="200" alt="FIRMS detections on a phone"> | <img src="docs/screenshots/phone-alerts-en.png" width="200" alt="Alert form on a phone"> |
-
-| Language menu | Calendar | Arabic home | Arabic map |
-|:---:|:---:|:---:|:---:|
-| <img src="docs/screenshots/phone-language-en.png" width="200" alt="Language menu on a phone"> | <img src="docs/screenshots/phone-calendar-en.png" width="200" alt="Calendar on a phone"> | <img src="docs/screenshots/phone-home-ar.png" width="200" alt="Arabic home on a phone"> | <img src="docs/screenshots/phone-map-ar.png" width="200" alt="Arabic map on a phone"> |
-
-*When the phone screenshots were taken, the weather service was rate-limiting the capture machine, so the
-weather box shows "Unavailable". This is how the site behaves when the service does not answer. The
-desktop screenshots show the computed danger.*
-
-## 3. Earth-observation data
-
-| Data | Sensor / product | Resolution | Used for |
-|---|---|---|---|
-| **Active fires** | NASA FIRMS: MODIS C6.1 (2005–2017) and VIIRS S-NPP 375 m (2017–2026) | 1 km / 375 m | Fire labels, fire-history features (years since last fire), map of past detections |
-| **Optical imagery** (research notebook) | Sentinel-2 L2A: B04, B08, B11, B12 | 10–20 m | NDVI, NDMI and NBR vegetation indices; dNBR burned-area labels (2019–2025 fires) |
-| **Optical imagery** (research notebook) | Landsat Collection 2 Level-2: red, nir08, swir16, swir22 | 30 m | Same indices for the fires before 2015 (2005, 2009) |
-| **Terrain** | Digital elevation model, reprojected to EPSG:26191 | ~ 30 m | Elevation, slope, aspect, topoclimate |
-| **Land cover** (research notebook) | 2021 land-cover classification of the study area | 10 m | Fuel type and flammability |
-| **Population** | WorldPop 2017 (`mar_ppp_2017`), clipped and reprojected | 100 m | Human exposure and pressure |
-| **Weather** | Open-Meteo forecast and ERA5-based archive | point at the forest centre | Daily weather danger, 2017–2024 summer climatology |
-| **Human access** (research notebook) | OpenStreetMap 2022: roads, tracks, buildings, villages, farmland | vector | Distance-based human pressure |
-
-**Hyperspectral data:** not used in this PoC. It is the next step in the roadmap: EnMAP or Arab Satellite 813
-scenes could map **live fuel moisture** and **vegetation species** at cell level. Those are the two variables
-the current multispectral indices capture only indirectly.
-
-## 4. Methodology and technical robustness
-
-### 4.1 Research model ([`model/code208_risque_feu_autonome.ipynb`](model/code208_risque_feu_autonome.ipynb))
-
-The documented, reproducible notebook is run end to end with *Run all*, in about 1 h 30 to 3 h for the
-first run. It works on one 250 m grid in Merchich / Nord Maroc (EPSG:26191) and keeps two questions apart:
-
-- **Where? A spatial model.**
-  - It is trained only on fire days, comparing burned and unburned cells of the same day. This way the
-    model learns *where* fires spread and does not just memorise *which days* were hot.
-  - **Labels:** Sentinel-2 or Landsat **dNBR** (threshold 0.27, with a FIRMS mask and a check against the
-    official burned area).
-  - **Training fires:** 8 documented fires between 2005 and 2022.
-  - **Blind test:** the two 2025 fires, never seen during training.
-- **Which day? A weather danger index.** It is transparent rather than learned: with only 8 fire days, a
-  learned "fire day" model would memorise those dates.
-- **Yearly susceptibility map.** It is learned from FIRMS detections year by year, with **leave-one-year-out**
-  validation, so the same fire is never both learned and evaluated.
-
-The notebook uses **29 inputs**. Every variable and formula (NDVI, NDMI, NBR, flammability, the topoclimate
-index of Assali et al. 2016, human pressure, fire history, VPD…) is documented in
-[`docs/inputs_modele_risque_feu.pdf`](docs/inputs_modele_risque_feu.pdf) (in French; its file paths refer to the
-original project layout).
-
-### 4.2 Web model ([`server/modele.py`](server/modele.py))
-
-The platform runs the parts of the notebook that work with the data in this repository, with the same
-formulas and parameters:
-
-| Step | Notebook | Platform |
+| Cell details | Alert sign-up | Arabic (right-to-left) |
 |---|---|---|
-| Single 250 m grid over the 6 forest parts | ✅ | ✅ 6,071 cells |
-| Elevation, slope, aspect (DEM), population (WorldPop 2017) | ✅ | ✅ |
-| Years since last fire + fuel rule (no fuel the year after a fire, half risk for 1 to 5 years) | ✅ | ✅ from FIRMS |
-| Land cover and OpenStreetMap distances | ✅ | ❌ input files not in the repository yet |
-| Sentinel-2 / Landsat indices, dNBR labels | ✅ | ❌ about 2 h of downloads, to be moved to a daily batch job |
-| Yearly susceptibility model, leave-one-year-out validation | ✅ | ✅ the better of logistic regression and random forest |
-| Weather danger index (Open-Meteo, 2017–2024 summers) | ✅ | ✅ |
-| Daily map: 5 KMeans classes + top-20 % alert zones | ✅ | ✅ |
+| ![Cell popup](docs/screenshots/cell-popup-en.png) | ![Alert form](docs/screenshots/alerts-signup-en.png) | ![Arabic version](docs/screenshots/home-ar.png) |
 
-### 4.3 Evaluation
+| Phone: home | Phone: risk map | Phone: fire history | Phone: alerts | Phone: Arabic |
+|:---:|:---:|:---:|:---:|:---:|
+| <img src="docs/screenshots/phone-home-en.png" width="160" alt="Home on a phone"> | <img src="docs/screenshots/phone-map-en.png" width="160" alt="Risk map on a phone"> | <img src="docs/screenshots/phone-fire-history-en.png" width="160" alt="FIRMS detections on a phone"> | <img src="docs/screenshots/phone-alerts-en.png" width="160" alt="Alert form on a phone"> | <img src="docs/screenshots/phone-map-ar.png" width="160" alt="Arabic map on a phone"> |
 
-The scores are returned by the API in `resume.modele`:
+*In the phone screenshots, the weather box reads "Unavailable" because the weather service was rate-limiting the capture
+machine. The desktop screenshots show the computed danger.*
 
-| Test | Result |
+## 8. Results and limitations
+
+**Measured.** All values are reproduced by the notebook:
+
+| Validation | Result |
 |---|---|
-| Leave-one-year-out validation, 2017–2024 | Mean ROC-AUC **0.62** per year, global ROC-AUC 0.65, PR lift 1.6. Logistic regression is selected. |
-| Blind test on the 2025 FIRMS detections (model trained on 2017–2024) | ROC-AUC **0.25** |
+| Leave-one-year-out 2017–2024, logistic regression (selected) | mean ROC-AUC per year **0.62**, global ROC-AUC 0.65, PR lift 1.64 |
+| Leave-one-year-out 2017–2024, random forest | mean ROC-AUC per year 0.56, global ROC-AUC 0.60, PR lift 1.31 |
+| ROC-AUC per held-out year (logistic regression) | 2017: 0.72 · 2018: 0.99 · 2019: 0.88 · 2020: 0.80 · 2021: 0.68 · 2022: 0.62 · 2023: 0.23 · 2024: 0.06 |
+| **Blind test on the 2025 fires** (41 FIRMS points, 39 cells) | ROC-AUC **0.25**, no 2025 fire cell inside the top-20 % alert zones |
 
-The reduced platform model is a **working end-to-end pipeline, not yet a reliable predictor**. The 2025 fires
-broke out in areas it ranks as low risk. Its strongest features (elevation, recent burns, aspect) describe
-terrain and history, but not **vegetation dryness or human access**. Those come from the land-cover, OSM and
-satellite inputs of the research notebook. Plugging them in is the first item of the roadmap.
+**Interpretation and where it breaks.**
+- **Good on the big fire years.** The model ranks well the years with large fires (2018–2021).
+- **Fails on recent fires.** It fails on 2023, 2024 and the 2025 blind test. The 2025 fires broke out in cells it rates as
+  low risk (blue points in the headline figure).
+- **Why.** The most important features are elevation, recent burns and aspect. They describe terrain and fire history,
+  not **vegetation dryness or human access**, which drive where new fires start.
+- **Small sample.** Only 345 positive cell-years exist: scores per year are unstable when a year has few fires.
+- **Fuel rule effect.** The rule correctly removes recently burned cells, which pushes the risk towards long-unburned
+  high ground.
 
-### 4.4 Robustness and scalability
+In short, this PoC is a **working, reproducible pipeline**, not yet a reliable predictor.
 
-- **One grid, one projection.** Every layer is projected to EPSG:26191 and checked when loaded. Slope
-  aspect is averaged circularly, so 355° and 5° give north, not south.
-- **No data leakage.** Fire history is always computed strictly **before** the date being studied. Test
-  years and test fires are never used for training or model selection.
-- **Reproducible.** Seeds are fixed. The server caches its preparation and rebuilds it automatically
-  when an input file changes (content hash).
-- **Scalable.** Covering another forest only needs its boundary, a DEM and the FIRMS archive. The
-  grid, the features, the model and the API are generic.
-- **Degrades gracefully.** If the weather service is down, the map still works and the danger box says
-  so.
+**Next steps (incubation).**
+1. Add the inputs of the research notebook to the reproducible pipeline:
+   - land cover and flammability;
+   - OpenStreetMap distances;
+   - Sentinel-2 NDVI, NDMI and NBR from a daily batch job.
+2. Add **hyperspectral fuel moisture and species maps** (EnMAP, Arab Satellite 813).
+3. Validate on dNBR burned areas rather than FIRMS points.
+4. Connect the alerts to an SMS gateway.
+5. Pilot one fire season with the forest managers.
 
-## 5. Innovation
+## 9. Team, licence and attribution
 
-- **"Where" and "which day" are kept apart.** A per-cell spatial model and a transparent daily weather
-  index replace a single black box. This avoids the usual trap where a model only learns "hot day = fire"
-  and lights up the whole forest at once.
-- **Fuel memory.** The years since the last fire, from 20 years of satellite detections, act as a fuel
-  rule: an area that burned last year cannot burn again right away.
-- **Local physics.** The topoclimate index (Assali et al., 2016) combines slope aspect with the day's wind
-  direction to flag dry, wind-exposed slopes.
-- **From satellite to citizen.** The same open-data pipeline feeds a risk map for forest managers, an
-  open GeoJSON API and **trilingual SMS and email alerts** for residents, with a full right-to-left
-  Arabic interface.
-
-## 6. Impact and strategic alignment
-
-| Goal | Contribution |
-|---|---|
-| **SDG 13 — Climate action** (13.1: resilience and adaptive capacity to climate hazards) | Daily risk and alerts in a region where heatwaves and *chergui* winds drive extreme fire seasons. |
-| **SDG 15 — Life on land** (15.1, 15.2: conserve and sustainably manage forests) | Pre-positioning patrols and firebreak work where the risk is highest. |
-| **SDG 11 — Sustainable cities and communities** (11.5: reduce losses from disasters) | Early warning for the ~10,600 people living inside the forest. |
-| **Morocco** | Supports the national forest strategy *Forêts du Maroc 2020-2030* and the work of the national forestry agency (ANEF) and Civil Protection. |
-| **Arab region** | The pipeline only needs open data (FIRMS, Sentinel-2, Landsat, DEM, WorldPop, Open-Meteo). It can be replicated in the Mediterranean forests of Algeria, Tunisia, Lebanon and Syria. |
-
-## 7. Commercial viability (brief business plan)
-
-| | |
-|---|---|
-| **Customers** | **B2G:** forestry agency (ANEF), regional directorates, Civil Protection, provinces and communes. **B2B:** insurers, forest-product cooperatives, tourism operators in forest areas. |
-| **Value proposition** | A daily, cell-level risk map with an explanation for each cell, an API for existing GIS tools, and ready-to-use citizen alerts in Arabic and French. |
-| **Revenue model** | **Subscription per protected area** for institutions (dashboard, API, alert dispatch, custom zones). **Free citizen alerts**, funded by the institutional contracts or by CSR partners. Paid add-ons: high-resolution and hyperspectral fuel mapping, post-fire burned-area reports. |
-| **Cost structure** | Open data, so no imagery cost for the base service. A small cloud server and SMS fees per alert. Model maintenance and onboarding of new forests. |
-| **Go-to-market** | 1) Pilot with the Rif forest managers on Bouhachem, Derdara and Jbel Sougna during one fire season. 2) Extend to the other Mediterranean forests of Morocco. 3) Replicate in other Arab countries through space agencies and civil-protection networks. |
-| **Competitive edge** | Global services (FIRMS, EFFIS / GWIS) show fires and danger at coarse scale. Wiqaya adds **local, cell-level risk**, a **fuel memory**, and **alerts to residents in their language**. |
-
-## 8. Run the proof of concept
-
-You need Python 3.11 or newer and an internet connection, for the weather and the map background.
-
-```bash
-git clone https://github.com/SanaeBelfrouh/wiqayagit.git
-cd wiqayagit
-git checkout wiqaya-hackathon
-
-python -m venv .venv
-source .venv/bin/activate            # Windows: .venv\Scripts\activate
-pip install -r server/requirements.txt
-
-python server/app.py
-```
-
-Then open **http://localhost:8000**. The full-screen map is at **http://localhost:8000/carte.html**.
-
-The first start prepares the model, which takes 3 to 5 minutes. It builds the grid, computes terrain
-features, reads FIRMS and runs the validation. The result is cached in `server/cache/`, so later starts take
-a few seconds.
-
-The full research notebook is in [`model/`](model/). See [`model/README.md`](model/README.md).
-
-### API
-
-| Route | Returns |
-|---|---|
-| `GET /api/risque[?date=YYYY-MM-DD]` | Risk cells as GeoJSON (WGS 84): `susceptibilite`, `classe_risque` (1–5), `alerte_feu`, terrain and history fields. `resume` holds the weather danger, the model name, its validation and test scores and its feature importance. |
-| `GET /api/feux?date=YYYY-MM-DD[&jours=N]` | NASA FIRMS detections within 5 km of the forest |
-| `GET /api/foret` | Outline of the 6 forest parts |
-| `POST /api/trpc/alerts.subscribe` | Alert sign-up used by the website form. Stored in `server/cache/inscriptions.jsonl`, which is not versioned. |
-
-Environment variables:
-
-| Variable | Default | Purpose |
-|---|---|---|
-| `PORT` | `8000` | Server port |
-| `HOST` | `127.0.0.1` | Listening address |
-| `WIQAYA_DATA` | `data` | Data folder |
-| `WIQAYA_CACHE` | `server/cache` | Cache folder |
-
-## 9. Data sources and citations
-
-- **NASA FIRMS, MODIS.** MODIS Collection 6.1 active fire detections, distributed by NASA FIRMS, https://earthdata.nasa.gov/firms.
-- **NASA FIRMS, VIIRS.** VIIRS S-NPP 375 m active fire detections (Collection 2), distributed by NASA FIRMS, https://earthdata.nasa.gov/firms.
-- **Copernicus Sentinel-2.** Contains modified Copernicus Sentinel data (2015–2025), Sentinel-2 L2A, accessed through Microsoft Planetary Computer, https://planetarycomputer.microsoft.com.
-- **Landsat.** Landsat Collection 2 Level-2 Surface Reflectance, courtesy of the U.S. Geological Survey, accessed through Microsoft Planetary Computer.
-- **WorldPop.** WorldPop (www.worldpop.org), *Global High Resolution Population Denominators Project*, Morocco 2017 population counts (`mar_ppp_2017`), University of Southampton, CC BY 4.0. Clipped to the study area and reprojected to 100 m in EPSG:26191; totals are kept within 0.1 %.
-- **Open-Meteo.** Zippenfeld, P. *Open-Meteo.com Weather API*, https://open-meteo.com, CC BY 4.0. The archive is based on ERA5: Hersbach, H. et al. (2020), *The ERA5 global reanalysis*, Q. J. R. Meteorol. Soc. 146, 1999–2049.
-- **OpenStreetMap.** © OpenStreetMap contributors, ODbL, https://www.openstreetmap.org/copyright.
-- **Map background.** Esri World Topo Map (Esri, HERE, Garmin, © OpenStreetMap contributors); fallback OpenTopoMap (CC BY-SA).
-- **Topoclimate method.** Assali, F. et al. (2016), forest-fire risk mapping in the Chefchaouen-Ouazzane region, Morocco.
-- **Forest boundaries, DEM and 2021 land cover.** GIS layers prepared by the team for the study area, in EPSG:26191.
-
-The full WorldPop raster (268 MB) is over GitHub's 100 MB limit, so it is not stored here.
-
-## 10. Repository structure
-
-```
-├── website/                            Web platform (HTML / CSS / JavaScript)
-│   ├── index2.html                     Home page
-│   ├── carte.html                      Full-screen risk map
-│   ├── carte-risque.js / .css          Risk map (Leaflet)
-│   ├── i18n.js                         English / French / Arabic translations
-│   └── wiqaya.js / wiqaya.css          Page interactions and styles
-├── server/                             Python server (FastAPI)
-│   ├── app.py                          Website + API
-│   ├── modele.py                       Fire-risk model used by the platform
-│   └── requirements.txt
-├── model/                              Full research notebook (code208) and how to run it
-├── data/                               GIS inputs, all in EPSG:26191
-│   ├── forest/limites_forets.shp       Forest boundaries (6 parts)
-│   ├── dem/mnt_bouhachem.tif           Digital elevation model
-│   ├── firms/                          NASA FIRMS fire detections (MODIS, VIIRS)
-│   └── population/                     WorldPop 2017, clipped to the study area
-└── docs/                               Screenshots and model-inputs documentation
-```
-
-## 11. Team
-
+**Team Wiqaya, Morocco:**
 - **Sanae Belfrouh**
 - **Wiame Kane**
+
+**Licence.** Code under the [MIT licence](LICENSE). Data keep their own licences (see [section 3](#3-data-used)).
+
+**Attribution:**
+- **NASA FIRMS** (MODIS C6.1 and VIIRS S-NPP 375 m active fires), https://earthdata.nasa.gov/firms.
+- **WorldPop**, www.worldpop.org, University of Southampton, Morocco 2017 population counts, CC BY 4.0.
+- **Open-Meteo** (Zippenfeld, P., *Open-Meteo.com Weather API*), CC BY 4.0. Its archive is based on ERA5:
+  Hersbach, H. et al. (2020), *The ERA5 global reanalysis*, Q. J. R. Meteorol. Soc. 146, 1999–2049.
+- **Copernicus Sentinel-2:** contains modified Copernicus Sentinel data 2015–2025.
+- **Landsat Collection 2:** courtesy of the U.S. Geological Survey.
+- **Microsoft Planetary Computer**, for Sentinel-2 and Landsat access.
+- **© OpenStreetMap contributors** (ODbL). Esri World Topo Map and OpenTopoMap for the platform's background map.
+- **Topoclimate method:** Assali, F. et al. (2016), forest-fire risk mapping in the Chefchaouen-Ouazzane region, Morocco.
+- **Libraries:** GeoPandas, Rasterio, rasterstats, scikit-learn, FastAPI and Leaflet.
+
+### Repository structure
+
+```
+├── README.md
+├── requirements.txt                 pinned versions (Python 3.11)
+├── LICENSE
+├── notebooks/
+│   └── 02_main_analysis.ipynb       reproducible main analysis, committed with its outputs
+├── data/sample_input/               example input clipped to the AOI (8.4 MB)
+├── results/                         example output written by the notebook
+├── src/wiqaya_model.py              model code used by the notebook and the platform
+├── research/                        full research notebook (code208)
+├── server/                          optional web platform: FastAPI server
+├── website/                         optional web platform: HTML / CSS / JS, English / French / Arabic
+└── docs/                            slides, screenshots, model-inputs documentation
+```

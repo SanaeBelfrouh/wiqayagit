@@ -49,7 +49,7 @@
     ["Open-Meteo n'a pas répondu : danger météo non calculé.", "Open-Meteo did not respond: weather danger not computed.", "لم يستجب Open-Meteo: لم يُحسب الخطر المناخي."],
     ["Modèle indisponible", "Model unavailable", "النموذج غير متوفر"],
     ["Lancez le serveur (python server/app.py) puis ouvrez http://localhost:8000.", "Start the server (python server/app.py) then open http://localhost:8000.", "شغّل الخادم (python server/app.py) ثم افتح http://localhost:8000."],
-    ["L'API /api/risque ne répond pas ({e}).", "The /api/risque API is not responding ({e}).", "واجهة /api/risque لا تستجيب ({e})."],
+    ["L'API /api/risk ne répond pas ({e}).", "The /api/risk API is not responding ({e}).", "واجهة /api/risk لا تستجيب ({e})."],
     ["zone en alerte", "alert zone", "منطقة إنذار"],
     ["Susceptibilité", "Susceptibility", "القابلية للاشتعال"],
     ["Dernier feu connu", "Last known fire", "آخر حريق معروف"],

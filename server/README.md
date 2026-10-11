@@ -1,17 +1,25 @@
-# Wiqaya server
+# Wiqaya web platform (optional)
 
-FastAPI server that serves the website (`website/`) and runs the fire-risk model behind the API.
-Installation, the model and the API are documented in the [main README](../README.md#8-run-the-proof-of-concept).
+FastAPI server that serves the website (`website/`) and runs the model from `src/wiqaya_model.py` behind an API.
 
 ```bash
-pip install -r server/requirements.txt
+pip install -r requirements.txt
 python server/app.py          # then open http://localhost:8000
 ```
 
-- `modele.py`: the platform's version of the code208 model. It covers the 250 m grid, terrain and
-  population features, fire history from FIRMS, yearly susceptibility with leave-one-year-out validation,
-  the Open-Meteo weather danger index and the daily map.
-- `app.py`: website and API routes (`/api/risque`, `/api/feux`, `/api/foret`, `/api/trpc/alerts.subscribe`).
-- `cache/`: model preparation and alert sign-ups. It is created automatically and not versioned.
+| Route | Returns |
+|---|---|
+| `GET /api/risk[?date=YYYY-MM-DD]` | Risk cells as GeoJSON (WGS 84) and a summary: weather danger, model, validation and test scores |
+| `GET /api/fires?date=YYYY-MM-DD[&days=N]` | NASA FIRMS detections within 5 km of the forest |
+| `GET /api/forest` | Forest boundaries |
+| `POST /api/trpc/alerts.subscribe` | Alert sign-up from the website form |
 
-The code comments are in French.
+The first start prepares the model in 3 to 5 minutes. It is then cached in `server/cache/`, which is not versioned,
+together with the alert sign-ups.
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `PORT` | `8000` | Port |
+| `HOST` | `127.0.0.1` | Listening address |
+| `WIQAYA_DATA` | `data/sample_input` | Input folder |
+| `WIQAYA_CACHE` | `server/cache` | Cache folder |
