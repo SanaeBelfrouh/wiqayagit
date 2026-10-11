@@ -181,7 +181,9 @@
     const demandee = new URLSearchParams(location.search).get("lang");
     if (LANGUES.includes(demandee)) return demandee;
     try { const l = localStorage.getItem("wiqayaLangue"); if (LANGUES.includes(l)) return l; } catch { /* stockage indisponible */ }
-    return "fr";
+    // Première visite : langue du navigateur (français, anglais ou arabe), sinon anglais
+    const navigateur = (navigator.language || "en").slice(0, 2);
+    return LANGUES.includes(navigateur) ? navigateur : "en";
   }
   let langue = lireLangue();
 
