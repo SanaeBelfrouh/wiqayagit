@@ -24,9 +24,23 @@ model, live weather and NASA satellite fire detections on one map, in **French, 
 |---|---|
 | ![Cell popup](docs/screenshots/cell-popup-en.png) | ![Alert form](docs/screenshots/alerts-signup-en.png) |
 
-| Arabic (right-to-left) | Mobile |
-|---|---|
-| ![Arabic version](docs/screenshots/home-ar.png) | ![Mobile version](docs/screenshots/mobile-fr.png) |
+**Arabic (right-to-left)**
+
+![Arabic version](docs/screenshots/home-ar.png)
+
+### On the phone
+
+The website is responsive: the map, the calendar, the alert form and the three languages all work on a phone.
+
+| Home | Risk map | Fire history (25 July 2022) | Alert sign-up |
+|:---:|:---:|:---:|:---:|
+| <img src="docs/screenshots/phone-home-en.png" width="200" alt="Home on a phone"> | <img src="docs/screenshots/phone-map-en.png" width="200" alt="Risk map on a phone"> | <img src="docs/screenshots/phone-fire-history-en.png" width="200" alt="FIRMS detections on a phone"> | <img src="docs/screenshots/phone-alerts-en.png" width="200" alt="Alert form on a phone"> |
+
+| Language menu | Calendar | Arabic home | Arabic map |
+|:---:|:---:|:---:|:---:|
+| <img src="docs/screenshots/phone-language-en.png" width="200" alt="Language menu on a phone"> | <img src="docs/screenshots/phone-calendar-en.png" width="200" alt="Calendar on a phone"> | <img src="docs/screenshots/phone-home-ar.png" width="200" alt="Arabic home on a phone"> | <img src="docs/screenshots/phone-map-ar.png" width="200" alt="Arabic map on a phone"> |
+
+*When the phone screenshots were taken, Open-Meteo was rate-limiting the capture machine, so the weather box shows "Unavailable". This is how the site behaves when the weather service does not answer. The desktop screenshots above show the computed danger.*
 
 ## Quick start
 
