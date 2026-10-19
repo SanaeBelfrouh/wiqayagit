@@ -1,0 +1,4 @@
+,incendie,role,ROC_AUC,PR_lift,VP,FN,FP,VN
+0,2025_bouhachem_pres_derdara,TEST,0.521294,0.97952,7,43,889,3966
+1,2025_derdara,VALIDATION (model trained without this fire),0.321751,0.680033,1,219,533,2047
+2,2022,VALIDATION (model trained without this fire),0.729286,1.815205,377,551,838,4305

@@ -1,0 +1,5 @@
+,ground truth 2025,cellules_feu,ROC_AUC,PR_lift,rappel_top20,precision_top20,precision_hasard
+0,FIRMS points 2025 (41 points) - without rule,39,0.332849,0.703839,0.0,0.0,0.006424
+1,FIRMS points 2025 (41 points) - with rule,39,0.388849,0.760674,0.025641,0.000823,0.006424
+2,dNBR burned area 2025_derdara,220,0.507865,0.934264,0.122727,0.048214,0.078571
+3,dNBR burned area 2025_bouhachem_pres_derdara,50,0.447778,0.845367,0.0,0.0,0.010194

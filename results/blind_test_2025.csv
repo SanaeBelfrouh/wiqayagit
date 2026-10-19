@@ -1,2 +1,0 @@
-test,firms_points,fire_cells,roc_auc,pr_lift,recall_top20,precision_top20,precision_random
-FIRMS 2025 (trained on 2017-2024),41,39,0.2495409100183636,0.6378004213845456,0.0,0.0,0.006423982869379015

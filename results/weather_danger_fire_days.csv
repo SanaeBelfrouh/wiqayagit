@@ -1,0 +1,9 @@
+,journee,date,indice_danger,classe
+0,incendie_2022,2022-07-25,0.952869,very high
+1,incendie_derdara_2021,2021-08-14,0.851947,very high
+2,incendie_tanaqoub_2019a,2019-08-13,0.748207,high
+3,incendie_2009a,2009-07-26,0.69416,high
+4,incendie_2020,2020-08-25,0.667777,high
+5,incendie_2009bc,2009-08-11,0.28458,moderate
+6,incendie_tanaqoub_2019b,2019-09-13,0.283555,moderate
+7,incendie_2005,2005-09-21,0.214395,low
