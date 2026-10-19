@@ -1,17 +1,22 @@
 # Wiqaya — pinned versions, tested with Python 3.11
-# Analysis notebook (notebooks/02_main_analysis.ipynb)
+# Analysis notebooks (notebooks/code207_risque_feu_final.ipynb and notebooks/02_main_analysis.ipynb)
 geopandas==1.2.0
 joblib==1.6.0
+lightgbm==4.7.0
 matplotlib==3.11.2
 numpy==2.4.6
 pandas==3.0.6
+planetary-computer==1.0.0
+pyarrow==26.0.0
 pyogrio==0.13.0
 pyproj==3.7.2
+pystac-client==0.9.0
 rasterio==1.4.4
 rasterstats==0.21.0
 requests==2.34.2
 scikit-learn==1.9.1
 shapely==2.2.0
+xgboost==3.2.0
 
 # Jupyter
 ipykernel==7.4.0
