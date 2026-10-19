@@ -11,7 +11,7 @@ inputs shipped in `data/sample_input/`:
   5. daily weather danger index (Open-Meteo forecast ranked against the 2017-2024 summers);
   6. daily map: 5 KMeans risk classes and an alert on the riskiest FRACTION_ALERT of the forest.
 
-Used by `notebooks/02_main_analysis.ipynb` (step by step) and by `server/app.py` (web platform).
+Used by `server/app.py` (web platform).
 """
 import hashlib
 import json

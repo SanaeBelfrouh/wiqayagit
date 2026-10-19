@@ -160,7 +160,7 @@ cd wiqayagit
 python -m venv .venv && source .venv/bin/activate      # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 export PROJECT_ROOT="$(pwd)"
-jupyter lab notebooks/code207_risque_feu_final.ipynb
+jupyter lab notebooks/02_main_analysis.ipynb
 ```
 
 Run all cells. The notebook writes:

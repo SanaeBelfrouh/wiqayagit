@@ -1,15 +1,14 @@
 # Research notebook — full fire-risk model (code208)
 
-`code208_risque_feu_autonome.ipynb` is the complete research model behind Wiqaya. The reproducible core of this model
-runs in [`notebooks/02_main_analysis.ipynb`](../notebooks/02_main_analysis.ipynb), with the inputs in
-[`data/sample_input/`](../data/sample_input/).
+`code208_risque_feu_autonome.ipynb` is a standalone variant of the research model behind Wiqaya. The final
+model is in [`notebooks/02_main_analysis.ipynb`](../notebooks/02_main_analysis.ipynb).
 
 The research notebook needs more inputs than the repository ships: a 2021 land-cover raster and OpenStreetMap distance
 layers. It also downloads Sentinel-2 and Landsat scenes from Microsoft Planetary Computer, which takes about 1 h 30 to
 3 h on the first run. Its code comments are in French. Every input and formula is documented in
 [`docs/inputs_modele_risque_feu.pdf`](../docs/inputs_modele_risque_feu.pdf).
 
-## What it adds to the main notebook
+## What it contains
 
 - **Spatial "fire day" model.** It is trained on 8 documented fires between 2005 and 2022, comparing burned and
   unburned cells of the same day. Burned areas come from the Sentinel-2 or Landsat dNBR (threshold 0.27, FIRMS mask,
