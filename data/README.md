@@ -14,20 +14,25 @@ The weather used by the web platform is downloaded at run time from Open-Meteo. 
 
 ## Inputs of the main notebook
 
-[`notebooks/02_main_analysis.ipynb`](../notebooks/02_main_analysis.ipynb) reads the four files above directly. They
-are the same data as the team's working folder (`data_prepared/reprojete_26191/`): with them, the notebook rebuilds
-the same 6,071-cell grid and finds the same 445 FIRMS points inside the forest (1,176 within 5 km). If the team's
-folder `data_prepared/reprojete_26191/` is present at the repository root, the notebook uses it instead.
-
-The notebook also needs two layers prepared by the team, to be placed in this folder:
+[`notebooks/02_main_analysis.ipynb`](../notebooks/02_main_analysis.ipynb) uses the team's working folder
+`data_prepared/reprojete_26191/` when it is present at the repository root:
 
 | File | Content |
 |---|---|
-| `land_cover_2021_10m.tif` | 2021 land-cover map of the study area, 10 m, EPSG:26191 (same file as `occupation_sol_2021_26191_10m.tif`) |
-| `osm/osm_code13_2022_distance_{route,piste,batiment,douar,agriculture}_m.parquet` | OpenStreetMap 2022 roads, tracks, buildings, villages and farmland, EPSG:26191 |
+| `limites_forets_26191.shp` | Forest limits, 6 parts |
+| `mnt_bouhachem_26191_30m.tif` | DEM resampled to 30 m |
+| `population_2017_26191_100m.tif` | WorldPop 2017, 100 m |
+| `feux_FIRMS/fire_*.shp` | NASA FIRMS points (3 files) |
+| `occupation_sol_2021_26191_10m.tif` | 2021 land-cover map of the study area, 10 m |
+| `osm/osm_code13_2022_distance_{route,piste,batiment,douar,agriculture}_m.parquet` | OpenStreetMap 2022 layers |
 
-To reproduce exactly the recorded results, it also reuses the team's caches, placed at the repository root with the
-same layout as on the team's computer:
+Without this folder, it reads the four files above instead, plus `land_cover_2021_10m.tif` and
+`osm/osm_code13_2022_distance_*_m.parquet` placed in this folder. The forest and FIRMS files are the same: the
+notebook rebuilds the same 6,071-cell grid and finds the same 445 FIRMS points inside the forest (1,176 within 5 km).
+The DEM here keeps its original 25 m pixels and the terrain values differ slightly (mean slope per cell 23.8 % instead
+of 23.2 %; mean elevation within 0.1 m), so the scores are close to, but not exactly, the recorded ones.
+
+To reproduce exactly the recorded results, the notebook also reuses the team's caches, placed at the repository root:
 
 - `data_prepared/code89_risque_feu_aujourdhui/cache/` (`static.parquet` and the daily `fenetres/*.parquet`): the 20
   days without fire are drawn from these days;
