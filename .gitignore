@@ -6,6 +6,10 @@ __MACOSX/
 resultats/
 server/cache/
 
+# Working files written by the main notebook (recomputed on each run)
+data_prepared/code207_risque_feu_final/
+outputs/
+
 # Python / Jupyter
 __pycache__/
 .ipynb_checkpoints/

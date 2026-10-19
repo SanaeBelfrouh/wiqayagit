@@ -11,3 +11,26 @@ about 25,900 ha. Everything is in Merchich / Nord Maroc (EPSG:26191). Total size
 | `firms_fire_detections.gpkg` | 1,176 active-fire detections within 5 km of the forest, 2005-05-09 to 2026-06-05 | NASA FIRMS archive download for the AOI: MODIS Collection 6.1 (2005–2017) and VIIRS S-NPP 375 m Collection 2 (2017–2026). Fields: `ACQ_DATE`, `ACQ_TIME`, `SATELLITE`, `INSTRUMENT`, `CONFIDENCE`, `FRP` |
 
 The weather used by the web platform is downloaded at run time from Open-Meteo. It needs no API key.
+
+## Inputs of the main notebook
+
+[`notebooks/02_main_analysis.ipynb`](../notebooks/02_main_analysis.ipynb) reads the four files above directly. They
+are the same data as the team's working folder (`data_prepared/reprojete_26191/`): with them, the notebook rebuilds
+the same 6,071-cell grid and finds the same 445 FIRMS points inside the forest (1,176 within 5 km). If the team's
+folder `data_prepared/reprojete_26191/` is present at the repository root, the notebook uses it instead.
+
+The notebook also needs two layers prepared by the team, to be placed in this folder:
+
+| File | Content |
+|---|---|
+| `land_cover_2021_10m.tif` | 2021 land-cover map of the study area, 10 m, EPSG:26191 (same file as `occupation_sol_2021_26191_10m.tif`) |
+| `osm/osm_code13_2022_distance_{route,piste,batiment,douar,agriculture}_m.parquet` | OpenStreetMap 2022 roads, tracks, buildings, villages and farmland, EPSG:26191 |
+
+To reproduce exactly the recorded results, it also reuses the team's caches, placed at the repository root with the
+same layout as on the team's computer:
+
+- `data_prepared/code89_risque_feu_aujourdhui/cache/` (`static.parquet` and the daily `fenetres/*.parquet`): the 20
+  days without fire are drawn from these days;
+- `data_prepared/code201_risque_feu_2005_2022_jbelsougna/cache/fenetres/` and `.../cache_dnbr/`: the satellite
+  values of each fire day and the dNBR burned areas. Missing days are recomputed from Microsoft Planetary Computer,
+  which takes 1 h 30 to 3 h.
